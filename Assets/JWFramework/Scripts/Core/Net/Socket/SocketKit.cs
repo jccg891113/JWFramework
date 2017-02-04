@@ -8,43 +8,65 @@ using System.Net.Sockets;
 
 namespace JWFramework.Net.Socket
 {
+	public delegate void SocketVoidDelegate ();
+	public delegate void SocketStateChange (SocketState newState);
+	
+	public enum SocketState : int
+	{
+		CREATE,
+		CONNECTING,
+		WORKING,
+		CLOSE,
+		ERROR_CLOSE,
+	}
+
+	public enum SocketErrorType : int
+	{
+		NONE,
+		CONNECT_ERROR,
+		RECEIVE_ERROR,
+		SEND_ERROR,
+		ERROR,
+		DISCONNECT,
+	}
+
 	public class SocketKit
 	{
 		Thread sendThread;
 		Thread receiveThread;
-		
+
+		public SocketState state{ get; private set; }
+
+		public SocketErrorType error{ get; private set; }
+
+		public bool connected{ get; private set; }
+
 		private System.Net.Sockets.Socket socket;
-		private AddressFamily addressFamily = AddressFamily.InterNetwork;
+		
 		private string address;
 		private int port;
 		
-		private int msgHeadLength;
-		private int msgLengthFlagOffset;
-		private int msgLengthFlagCount;
-		
 		private Queue<object> msgQueue = new Queue<object> ();
+		
+		private AddressFamily addressFamily = AddressFamily.InterNetwork;
 		
 		private Queue<NetData> sendDataQueue = new Queue<NetData> ();
 		private Queue<NetData> receiveDataQueue = new Queue<NetData> ();
-		public Queue<NetData> SpliteDataQueue = new Queue<NetData> ();
 
-		public SocketKit (string address, int port, int msgHeadLength, int msgLengthFlagOffset, int msgLengthFlagCount)
+		private SocketVoidDelegate afterConnectDelegate;
+		private SocketStateChange socketStateChange;
+
+		public SocketKit (string ipv4Address, int port, SocketStateChange socketStateChange)
 		{
-			this.address = address;
+			this.address = ipv4Address;
+			this.addressFamily = AddressFamily.InterNetwork;
 			this.port = port;
 			this.msgQueue = new Queue<object> ();
-			this.sendDataQueue = new Queue<NetData> ();
-			this.receiveDataQueue = new Queue<NetData> ();
-			this.SpliteDataQueue = new Queue<NetData> ();
-			this.addressFamily = AddressFamily.InterNetwork;
-			
-			this.msgHeadLength = msgHeadLength;
-			this.msgLengthFlagOffset = msgLengthFlagOffset;
-			this.msgLengthFlagCount = msgLengthFlagCount;
+			this.socketStateChange = socketStateChange;
 			
 			SetIPV6ForIOS ();
 			
-			socket = new System.Net.Sockets.Socket (addressFamily, SocketType.Stream, ProtocolType.Tcp);
+			ResetInit ();
 		}
 
 		private void SetIPV6ForIOS ()
@@ -61,6 +83,27 @@ namespace JWFramework.Net.Socket
 			#endif
 		}
 
+		public void ResetInit ()
+		{
+			this.sendDataQueue = new Queue<NetData> ();
+			this.receiveDataQueue = new Queue<NetData> ();
+			socket = new System.Net.Sockets.Socket (addressFamily, SocketType.Stream, ProtocolType.Tcp);
+			
+			SetSocketState (false, SocketState.CREATE, SocketErrorType.NONE);
+		}
+
+		private void SetSocketState (bool connected, SocketState currState, SocketErrorType currError)
+		{
+			this.connected = connected;
+			this.state = currState;
+			this.error = currError;
+			lock (this.socketStateChange) {
+				if (this.socketStateChange != null) {
+					this.socketStateChange (currState);
+				}
+			}
+		}
+
 		public void Tick ()
 		{
 			lock (msgQueue) {
@@ -69,54 +112,26 @@ namespace JWFramework.Net.Socket
 					JWDebug.LogWarning (msg, JWDebug.LogType.net_socket);
 				}
 			}
-			SplitNetData ();
 		}
 
-		private void SplitNetData ()
+		public void Connect (SocketVoidDelegate afterConnectDelegate)
 		{
-			lock (receiveDataQueue) {
-				byte[] allByte = { };
-				// generate all byte data
-				while (receiveDataQueue.Count > 0) {
-					var receiveData = receiveDataQueue.Dequeue ();
-					byte[] tmp = new byte[allByte.Length + receiveData.length];
-					System.Buffer.BlockCopy (allByte, 0, tmp, 0, allByte.Length);
-					System.Buffer.BlockCopy (receiveData.msg, 0, tmp, allByte.Length, receiveData.length);
-				}
-				// splite net data
-				while (allByte.Length >= (msgLengthFlagOffset + msgLengthFlagCount)) {
-					int length = ByteFunc.ByteToInt (allByte, msgLengthFlagOffset, msgLengthFlagCount);
-					if (allByte.Length >= (msgHeadLength + length)) {
-						byte[] completeData = new byte[msgHeadLength + length];
-						System.Buffer.BlockCopy (allByte, 0, completeData, 0, (msgHeadLength + length));
-						SpliteDataQueue.Enqueue (new NetData (completeData));
-						
-						if (allByte.Length - msgHeadLength - length > 0) {
-							byte[] tmp = new byte[allByte.Length - msgHeadLength - length];
-							System.Buffer.BlockCopy (allByte, (msgHeadLength + length), tmp, 0, (allByte.Length - msgHeadLength - length));
-							allByte = new byte[tmp.Length];
-							System.Buffer.BlockCopy (tmp, 0, allByte, 0, tmp.Length);
-						} else {
-							allByte = new byte[0];
-						}
-					}
-				}
-				// resave last no complete net data
-				if (allByte.Length > 0) {
-					receiveDataQueue.Enqueue (new NetData (allByte));
-				}
-			}
-		}
-
-		public void Connect ()
-		{
+			this.afterConnectDelegate = afterConnectDelegate;
 			try {
 				socket.BeginConnect (this.address, this.port, ConnectHandler, socket);
 				socket.SendTimeout = 5000;
+				SetSocketState (false, SocketState.CONNECTING, SocketErrorType.NONE);
 			} catch (Exception e) {
-				lock (msgQueue) {
-					msgQueue.Enqueue (e);
-				}
+				EnqueueLog (e);
+				CloseBase ();
+				SetSocketState (false, SocketState.ERROR_CLOSE, SocketErrorType.CONNECT_ERROR);
+			}
+		}
+
+		private void EnqueueLog (object log)
+		{
+			lock (msgQueue) {
+				msgQueue.Enqueue (log);
 			}
 		}
 
@@ -126,20 +141,20 @@ namespace JWFramework.Net.Socket
 			try {
 				s.EndConnect (async);
 				if (s.Connected) {
-					lock (msgQueue) {
-						msgQueue.Enqueue ("Success Connect: " + this.address + ":" + this.port);
-					}
+					EnqueueLog ("Success Connect: " + this.address + ":" + this.port);
+					SetSocketState (true, SocketState.WORKING, SocketErrorType.NONE);
 					ConnectSuccess ();
+					AfterConnectSuccess ();
 				} else {
-					lock (msgQueue) {
-						msgQueue.Enqueue ("Socket connect Error");
-					}
+					EnqueueLog ("Socket connect Error");
+					CloseBase ();
+					SetSocketState (false, SocketState.ERROR_CLOSE, SocketErrorType.CONNECT_ERROR);
 				}
 			} catch (Exception e) {
-				lock (msgQueue) {
-					msgQueue.Enqueue ("Connect error.\n" + e);
-				}
 				s.EndConnect (async);
+				EnqueueLog ("Connect error.\n" + e);
+				CloseBase ();
+				SetSocketState (false, SocketState.ERROR_CLOSE, SocketErrorType.CONNECT_ERROR);
 			}
 		}
 
@@ -154,6 +169,13 @@ namespace JWFramework.Net.Socket
 			receiveThread.Start ();
 		}
 
+		private void AfterConnectSuccess ()
+		{
+			if (this.afterConnectDelegate != null) {
+				this.afterConnectDelegate ();
+			}
+		}
+
 		public void Send (byte[] msg)
 		{
 			lock (sendDataQueue) {
@@ -163,7 +185,7 @@ namespace JWFramework.Net.Socket
 
 		private void SendThread ()
 		{
-			while (true) {
+			while (connected) {
 				NetData willSendData = null;
 				lock (sendDataQueue) {
 					if (sendDataQueue.Count > 0) {
@@ -178,10 +200,12 @@ namespace JWFramework.Net.Socket
 							hadSend += send;
 							send = socket.Send (willSendData.msg, hadSend, willSendData.length - hadSend, SocketFlags.None);
 						}
+					} catch (ThreadAbortException) {
+						break;
 					} catch (Exception e) {
-						lock (msgQueue) {
-							msgQueue.Enqueue (e);
-						}
+						EnqueueLog (e);
+						CloseBase ();
+						SetSocketState (false, SocketState.ERROR_CLOSE, SocketErrorType.SEND_ERROR);
 					}
 				}
 			}
@@ -190,64 +214,77 @@ namespace JWFramework.Net.Socket
 		private void ReceiveThread ()
 		{
 			byte[] msgTmpPool = new byte[4096];
-			while (true) {
+			while (connected) {
 				try {
 					int read = socket.Receive (msgTmpPool);
 					if (read <= 0) {
+						CloseBase ();
+						SetSocketState (false, SocketState.CLOSE, SocketErrorType.NONE);
 					} else {
 						lock (receiveDataQueue) {
 							receiveDataQueue.Enqueue (new NetData (read, msgTmpPool));
 						}
 					}
-				} catch {
+				} catch (ThreadAbortException) {
+					break;
+				} catch (Exception e) {
+					EnqueueLog (e);
+					CloseBase ();
+					SetSocketState (false, SocketState.ERROR_CLOSE, SocketErrorType.RECEIVE_ERROR);
 				}
 			}
 		}
 
-		//		public bool SendMessage (byte[] msg, object msgInfo)
-		//		{
-		//			SendHelper sh = new SendHelper (socket, msg, msgInfo);
-		//			socket.BeginSend (msg, 0, msg.Length, SocketFlags.None, SendHandler, sh);
-		//			return true;
-		//		}
-		//
-		//		private void SendHandler (IAsyncResult async)
-		//		{
-		//			SendHelper sh = (SendHelper)async.AsyncState;
-		//			if (!sh.socket.Connected) {
-		//				return;
-		//			}
-		//			try {
-		//				int sendCount = sh.socket.EndSend (async);
-		//				sh.sentNumber += sendCount;
-		//				if (sh.sentNumber < sh.data.Length) {
-		//					socket.BeginSend (sh.data, sh.sentNumber, sh.data.Length - sh.sentNumber, SocketFlags.None, SendHandler, sh);
-		//				}
-		//				lock (msgQueue) {
-		//					msgQueue.Enqueue (string.Format ("---> Length:{0}, MsgInfo:{1}", sh.sentNumber, sh.msgInfo));
-		//				}
-		//			} catch (Exception e) {
-		//				msgQueue.Enqueue ("End send error.\n" + e);
-		//				sh.socket.EndSend (async);
-		//			}
-		//		}
-		//
-		//		internal class SendHelper
-		//		{
-		//			public System.Net.Sockets.Socket socket;
-		//			public int sentNumber;
-		//			public object msgInfo;
-		//			public byte[] data;
-		//
-		//			public SendHelper (Socket s, byte[] msg, object msgInfo)
-		//			{
-		//				this.socket = s;
-		//				this.sentNumber = 0;
-		//				this.msgInfo = msgInfo;
-		//				this.data = new byte[msg.Length];
-		//				System.Buffer.BlockCopy (msg, 0, this.data, 0, msg.Length);
-		//			}
-		//		}
+		public void Close ()
+		{
+			CloseBase ();
+			SetSocketState (false, SocketState.CLOSE, SocketErrorType.NONE);
+		}
+
+		private void CloseBase ()
+		{
+			lock (socket) {
+				if (socket != null) {
+					if (socket.Connected) {
+						socket.Close ();
+					}
+				}
+			}
+			lock (sendThread) {
+				if (sendThread != null) {
+					sendThread.Abort ();
+					sendThread = null;
+				}
+			}
+			lock (receiveThread) {
+				if (receiveThread != null) {
+					receiveThread.Abort ();
+					receiveThread = null;
+				}
+			}
+		}
+
+		public void SpeClose (SocketState closeState, SocketErrorType closeError)
+		{
+			CloseBase ();
+			SetSocketState (false, closeState, closeError);
+		}
+
+		public byte[] GetReceivedBytes ()
+		{
+			lock (receiveDataQueue) {
+				byte[] res = new byte[0];
+				while (receiveDataQueue.Count > 0) {
+					var receiveData = receiveDataQueue.Dequeue ();
+					byte[] tmp = new byte[res.Length + receiveData.length];
+					System.Buffer.BlockCopy (res, 0, tmp, 0, res.Length);
+					System.Buffer.BlockCopy (receiveData.msg, 0, tmp, res.Length, receiveData.length);
+					res = new byte[tmp.Length];
+					System.Buffer.BlockCopy (tmp, 0, res, 0, tmp.Length);
+				}
+				return res;
+			}
+		}
 
 		public class NetData
 		{

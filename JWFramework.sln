@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWFramework", "Assembly-CSharp.csproj", "{5AC0CF92-0C02-6987-17FA-0A7D3FD36915}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWFramework", "Assembly-CSharp-Editor.csproj", "{4DC4C909-E2B2-61C2-2133-FA35F6FB6F63}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{5AC0CF92-0C02-6987-17FA-0A7D3FD36915}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5AC0CF92-0C02-6987-17FA-0A7D3FD36915}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5AC0CF92-0C02-6987-17FA-0A7D3FD36915}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DC4C909-E2B2-61C2-2133-FA35F6FB6F63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DC4C909-E2B2-61C2-2133-FA35F6FB6F63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DC4C909-E2B2-61C2-2133-FA35F6FB6F63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DC4C909-E2B2-61C2-2133-FA35F6FB6F63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
