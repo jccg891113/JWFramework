@@ -55,7 +55,9 @@
      <Compile Include="Assets\JWFramework\Scripts\Core\Net\Http\HttpBase.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\Net\Http\HttpKit.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\Net\Socket\SocketBase.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\Net\Socket\SocketBaseData.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\Net\Socket\SocketBaseFSM.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\Net\Socket\SocketBaseSpliteMsgTool.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\Net\Socket\SocketKit.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\Notification\Notification.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\Notification\NotificationCenter.cs" />

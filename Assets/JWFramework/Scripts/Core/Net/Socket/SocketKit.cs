@@ -9,7 +9,7 @@ using System.Net.Sockets;
 namespace JWFramework.Net.Socket
 {
 	public delegate void SocketVoidDelegate ();
-	public delegate void SocketStateChange (SocketState newState);
+	public delegate void SocketSocketStateDelegate (SocketState newState);
 	
 	public enum SocketState : int
 	{
@@ -54,9 +54,9 @@ namespace JWFramework.Net.Socket
 		private Queue<NetData> receiveDataQueue = new Queue<NetData> ();
 
 		private SocketVoidDelegate afterConnectDelegate;
-		private SocketStateChange socketStateChange;
+		private SocketSocketStateDelegate socketStateChange;
 
-		public SocketKit (string ipv4Address, int port, SocketStateChange socketStateChange)
+		public SocketKit (string ipv4Address, int port, SocketSocketStateDelegate socketStateChange)
 		{
 			this.address = ipv4Address;
 			this.addressFamily = AddressFamily.InterNetwork;
@@ -109,7 +109,7 @@ namespace JWFramework.Net.Socket
 			lock (msgQueue) {
 				while (msgQueue.Count > 0) {
 					object msg = msgQueue.Dequeue ();
-					JWDebug.LogWarning (msg, JWDebug.LogType.net_socket);
+					JWDebug.Log (msg, JWDebug.LogType.net_socket);
 				}
 			}
 		}
@@ -199,6 +199,7 @@ namespace JWFramework.Net.Socket
 						while (hadSend + send < willSendData.length) {
 							hadSend += send;
 							send = socket.Send (willSendData.msg, hadSend, willSendData.length - hadSend, SocketFlags.None);
+							EnqueueLog ("[Normal] Send " + send + " byte success");
 						}
 					} catch (ThreadAbortException) {
 						break;
@@ -224,6 +225,7 @@ namespace JWFramework.Net.Socket
 						lock (receiveDataQueue) {
 							receiveDataQueue.Enqueue (new NetData (read, msgTmpPool));
 						}
+						EnqueueLog ("[Normal] Receive " + read + " byte success");
 					}
 				} catch (ThreadAbortException) {
 					break;
@@ -270,19 +272,23 @@ namespace JWFramework.Net.Socket
 			SetSocketState (false, closeState, closeError);
 		}
 
-		public byte[] GetReceivedBytes ()
+		public bool GetReceivedBytes (out byte[] res)
 		{
+			res = new byte[0];
 			lock (receiveDataQueue) {
-				byte[] res = new byte[0];
-				while (receiveDataQueue.Count > 0) {
-					var receiveData = receiveDataQueue.Dequeue ();
-					byte[] tmp = new byte[res.Length + receiveData.length];
-					System.Buffer.BlockCopy (res, 0, tmp, 0, res.Length);
-					System.Buffer.BlockCopy (receiveData.msg, 0, tmp, res.Length, receiveData.length);
-					res = new byte[tmp.Length];
-					System.Buffer.BlockCopy (tmp, 0, res, 0, tmp.Length);
+				if (receiveDataQueue.Count > 0) {
+					while (receiveDataQueue.Count > 0) {
+						var receiveData = receiveDataQueue.Dequeue ();
+						byte[] tmp = new byte[res.Length + receiveData.length];
+						System.Buffer.BlockCopy (res, 0, tmp, 0, res.Length);
+						System.Buffer.BlockCopy (receiveData.msg, 0, tmp, res.Length, receiveData.length);
+						res = new byte[tmp.Length];
+						System.Buffer.BlockCopy (tmp, 0, res, 0, tmp.Length);
+					}
+					return true;
+				} else {
+					return false;
 				}
-				return res;
 			}
 		}
 

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using JWFramework.Net.Socket.Base;
 
 namespace JWFramework.Net.Socket
 {
@@ -8,41 +9,46 @@ namespace JWFramework.Net.Socket
 	{
 		private SocketKit coreKit;
 		
-		private int msgHeadLength;
-		private int coreMsgLengthFlagOffset;
-		private int coreMsgLengthFlagCount;
-
-		public bool autoConnect = false;
-		private SocketVoidDelegate afterConnectDelegate;
-		private SocketVoidDelegate reconnectHandler;
-		
-		public float connectTime;
-		
-		private Queue<SocketKit.NetData> receivedMsgData;
-		private byte[] tmpReceivedMsg;
+		public SocketBaseData baseData;
+		private SocketBaseSpliteMsgTool receiveMsgTool;
 		
 		private SocketBaseFSM logicFSM;
+		
+		private SocketVoidDelegate afterConnectDelegate;
+		private SocketVoidDelegate reconnectHandler;
+		private SocketSocketStateDelegate socketStateTrigger;
 
-		public SocketBase (string address, int port, int msgHeadLength, int msgLengthFlagOffset = 0, int msgLengthFlagCount = 4)
+		#region
+
+		public float connectTime{ get { return logicFSM.ConnectTime; } }
+
+		public bool Connected { get { return coreKit.connected; } }
+
+		public SocketState CurrState { get { return logicFSM.CurrrentStateType; } }
+
+		#endregion
+
+		public SocketBase (string address, int port, SocketSocketStateDelegate socketStateTrigger, int msgHeadLength, int msgLengthFlagOffset = 0, int msgLengthFlagCount = 4)
 		{
-			coreKit = new SocketKit (address, port, new JWFramework.Net.Socket.SocketStateChange (SocketStateChange));
-			this.msgHeadLength = msgHeadLength;
-			this.coreMsgLengthFlagOffset = msgLengthFlagOffset;
-			this.coreMsgLengthFlagCount = msgLengthFlagCount;
-			receivedMsgData = new Queue<SocketKit.NetData> ();
-			tmpReceivedMsg = new byte[0];
+			this.logicFSM = new SocketBaseFSM (this);
+			this.baseData = new SocketBaseData (msgHeadLength, msgLengthFlagOffset, msgLengthFlagCount);
+			this.receiveMsgTool = new SocketBaseSpliteMsgTool ();
+			this.socketStateTrigger = socketStateTrigger;
 			
-			logicFSM = new SocketBaseFSM (this);
+			this.coreKit = new SocketKit (address, port, new JWFramework.Net.Socket.SocketSocketStateDelegate (SocketStateChange));
 		}
 
 		private void SocketStateChange (SocketState newState)
 		{
 			logicFSM.Goto (newState, null);
+			if (this.socketStateTrigger != null) {
+				this.socketStateTrigger (newState);
+			}
 		}
 
 		public void Connect (bool autoConnect, SocketVoidDelegate afterConnectDelegate, SocketVoidDelegate reconnectHandler)
 		{
-			this.autoConnect = autoConnect;
+			baseData.SetAutoConnect (autoConnect, 10);
 			this.afterConnectDelegate = afterConnectDelegate;
 			this.reconnectHandler = reconnectHandler;
 			_Connect ();
@@ -51,9 +57,17 @@ namespace JWFramework.Net.Socket
 		private void _Connect ()
 		{
 			SpliteNetData ();
-			tmpReceivedMsg = new byte[0];
+			receiveMsgTool.Clean ();
 			coreKit.ResetInit ();
 			coreKit.Connect (this.afterConnectDelegate);
+		}
+
+		private void SpliteNetData ()
+		{
+			byte[] lastReceivedMsg;
+			if (coreKit.GetReceivedBytes (out lastReceivedMsg)) {
+				receiveMsgTool.InsertBytes (lastReceivedMsg, baseData);
+			}
 		}
 
 		public void ReconnectMain ()
@@ -61,12 +75,11 @@ namespace JWFramework.Net.Socket
 			_Connect ();
 		}
 
-		/// <summary>
-		/// private
-		/// </summary>
-		public void NoAutoReconnect ()
+		public void AskReconnectHandler ()
 		{
-			this.reconnectHandler ();
+			if (this.reconnectHandler != null) {
+				this.reconnectHandler ();
+			}
 		}
 
 		public void Send (byte[] msg)
@@ -81,36 +94,19 @@ namespace JWFramework.Net.Socket
 			SpliteNetData ();
 		}
 
-		private void SpliteNetData ()
+		public bool DequeueMsgData (out byte[] res)
 		{
-			byte[] lastReceivedMsg = coreKit.GetReceivedBytes ();
-			if (lastReceivedMsg.Length <= 0) {
-				return;
-			}
-			byte[] allByte = new byte[lastReceivedMsg.Length + tmpReceivedMsg.Length];
-			System.Buffer.BlockCopy (tmpReceivedMsg, 0, allByte, 0, tmpReceivedMsg.Length);
-			System.Buffer.BlockCopy (lastReceivedMsg, 0, allByte, tmpReceivedMsg.Length, lastReceivedMsg.Length);
-			// splite net data
-			while (allByte.Length >= (coreMsgLengthFlagOffset + coreMsgLengthFlagCount)) {
-				int msgLength = ByteFunc.ByteToInt (allByte, coreMsgLengthFlagOffset, coreMsgLengthFlagCount);
-				int msgLengthHadHead = msgHeadLength + msgLength;
-				if (allByte.Length >= msgLengthHadHead) {
-					byte[] completeData = new byte[msgLengthHadHead];
-					System.Buffer.BlockCopy (allByte, 0, completeData, 0, msgLengthHadHead);
-					receivedMsgData.Enqueue (new SocketKit.NetData (completeData));
+			return receiveMsgTool.GetMsgData (out res);
+		}
 
-					if (allByte.Length - msgLengthHadHead > 0) {
-						byte[] tmp = new byte[allByte.Length - msgLengthHadHead];
-						System.Buffer.BlockCopy (allByte, msgLengthHadHead, tmp, 0, (allByte.Length - msgLengthHadHead));
-						allByte = new byte[tmp.Length];
-						System.Buffer.BlockCopy (tmp, 0, allByte, 0, tmp.Length);
-					} else {
-						allByte = new byte[0];
-					}
-				}
-			}
-			tmpReceivedMsg = new byte[allByte.Length];
-			System.Buffer.BlockCopy (allByte, 0, tmpReceivedMsg, 0, allByte.Length);
+		public void TimeOut ()
+		{
+			coreKit.SpeClose (SocketState.ERROR_CLOSE, SocketErrorType.ERROR);
+		}
+
+		public void Close ()
+		{
+			coreKit.Close ();
 		}
 	}
 }

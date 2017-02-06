@@ -7,7 +7,6 @@ namespace JWFramework
 {
 	public class JWData
 	{
-		// Name-Value pair
 		private Dictionary<string, JWDataItem> baseData;
 
 		public JWData (params object[] paramKeyValue)

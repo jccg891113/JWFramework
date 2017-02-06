@@ -6,11 +6,17 @@ using System.Net;
 using System.Net.Sockets;
 using JWFramework.FSM;
 
-namespace JWFramework.Net.Socket
+namespace JWFramework.Net.Socket.Base
 {
 	public class SocketBaseFSM : FSMachine<SocketState>
 	{
 		public SocketBase socketBase{ get; private set; }
+
+		public float ConnectTime {
+			get {
+				return this.GetState<SocketConnecting> (SocketState.CONNECTING).connectTime;
+			}
+		}
 
 		public SocketBaseFSM (SocketBase socketBase)
 		{
@@ -42,19 +48,22 @@ namespace JWFramework.Net.Socket
 
 	public class SocketConnecting : SocketStateBase
 	{
+		public float connectTime;
+
 		public SocketConnecting (SocketBaseFSM ctrl) : base (SocketState.CONNECTING, ctrl)
 		{
+			connectTime = 0;
 		}
 
 		public override void Enter (SocketState beforeStateType, JWData enterParamData)
 		{
-			this.ctrl.socketBase.connectTime = 0;
+			connectTime = 0;
 			base.Enter (beforeStateType, enterParamData);
 		}
 
 		public override void Tick (float delta)
 		{
-			this.ctrl.socketBase.connectTime += delta;
+			connectTime += delta;
 		}
 	}
 
@@ -76,16 +85,16 @@ namespace JWFramework.Net.Socket
 
 		public override void Enter (SocketState beforeStateType, JWData enterParamData)
 		{
-			if (!ctrl.socketBase.autoConnect) {
-				ctrl.socketBase.NoAutoReconnect ();
+			if (!ctrl.socketBase.baseData.AutoConnect) {
+				ctrl.socketBase.AskReconnectHandler ();
 			}
 		}
 
 		public override void Tick (float delta)
 		{
 			reconnectTime += delta;
-			if (reconnectTime > 10) {
-				if (ctrl.socketBase.autoConnect) {
+			if (reconnectTime > ctrl.socketBase.baseData.AutoConnectDelay) {
+				if (ctrl.socketBase.baseData.AutoConnect) {
 					ctrl.socketBase.ReconnectMain ();
 				}
 				reconnectTime = 0;
