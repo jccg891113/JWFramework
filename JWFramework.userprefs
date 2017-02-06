@@ -1,11 +1,11 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/JWFramework/Scripts/Core/Net/Socket/SocketKit.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/JWFramework/Scripts/Core/Net/Socket/SocketBase.cs">
     <Files>
-      <File FileName="Assets/JWFramework/Scripts/Core/Net/Socket/SocketBase.cs" Line="16" Column="31" />
-      <File FileName="Assets/JWFramework/Scripts/Core/Net/Socket/SocketKit.cs" Line="269" Column="59" />
-      <File FileName="Assets/JWFramework/Plugins/iOS/IOSIPV6.cs" Line="1" Column="1" />
-      <File FileName="Assets/JWFramework/Scripts/Core/Net/Socket/SocketBaseKit.cs" Line="99" Column="4" />
+      <File FileName="Assets/Editor/NewEditorTest.cs" Line="1" Column="1" />
+      <File FileName="Assets/JWFramework/Scripts/Core/Net/Socket/SocketKit.cs" Line="11" Column="23" />
+      <File FileName="Assets/JWFramework/Scripts/Core/Net/Socket/SocketBase.cs" Line="63" Column="1" />
+      <File FileName="Assets/JWFramework/Scripts/Core/Net/Socket/SocketBaseFSM.cs" Line="89" Column="39" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
