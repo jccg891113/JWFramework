@@ -6,7 +6,7 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 
-namespace JWFramework.Net.Socket
+namespace JWFramework.Net.Socket.Private
 {
 	public delegate void SocketVoidDelegate ();
 	public delegate void SocketSocketStateDelegate (SocketState newState);

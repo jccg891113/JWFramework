@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace JWFramework.Net.Http
+namespace JWFramework.Net.Http.Private
 {
 	public delegate void HttpSessionCompleted (bool success,byte[] msg,object state);
 	

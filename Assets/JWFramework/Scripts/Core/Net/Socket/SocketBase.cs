@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using JWFramework.Net.Socket.Base;
+using JWFramework.Net.Socket.Private;
 
 namespace JWFramework.Net.Socket
 {
@@ -35,7 +35,7 @@ namespace JWFramework.Net.Socket
 			this.receiveMsgTool = new SocketBaseSpliteMsgTool ();
 			this.socketStateTrigger = socketStateTrigger;
 			
-			this.coreKit = new SocketKit (address, port, new JWFramework.Net.Socket.SocketSocketStateDelegate (SocketStateChange));
+			this.coreKit = new SocketKit (address, port, SocketStateChange);
 		}
 
 		private void SocketStateChange (SocketState newState)

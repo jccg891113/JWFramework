@@ -10,19 +10,19 @@ namespace JWFramework.FSM
 		protected Dictionary<T, FState<T>> statePools = new Dictionary<T, FState<T>> ();
 		
 		private FState<T> currentState = null;
-		
 		private bool needDefaultState = false;
 		private T defaultState;
+		private JWData defaultStateEnterData = null;
 
-		public bool Running {
-			get {
-				return currentState != null;
-			}
-		}
+		public bool Running { get { return currentState != null; } }
 
-		public T CurrrentStateType {
+		public T CurrrentStateType { 
 			get {
-				return currentState.stateType;
+				if (currentState != null) {
+					return currentState.stateType;
+				} else {
+					return default(T);
+				}
 			}
 		}
 
@@ -35,10 +35,17 @@ namespace JWFramework.FSM
 			this.statePools [newState.stateType] = newState;
 		}
 
-		public void SetDefaultState (T defaultState)
+		public void SetDefaultState (T defaultState, JWData defaultStateEnterData = null)
 		{
 			this.defaultState = defaultState;
 			this.needDefaultState = true;
+			this.defaultStateEnterData = defaultStateEnterData;
+		}
+
+		public FState<T> this [T stateType] {
+			get {
+				return statePools [stateType];
+			}
 		}
 
 		public V GetState<V> (T stateType) where V : FState<T>
@@ -51,7 +58,7 @@ namespace JWFramework.FSM
 			if (currentState == null) {
 				if (needDefaultState) {
 					currentState = statePools [defaultState];
-					currentState.Enter (defaultState, null);
+					currentState.Enter (defaultState, defaultStateEnterData);
 				}
 			} else {
 				JWData enterParamData = null;

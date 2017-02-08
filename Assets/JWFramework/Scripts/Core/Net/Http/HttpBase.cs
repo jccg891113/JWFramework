@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using JWFramework.Net.Http.Private;
 
 namespace JWFramework.Net.Http
 {
@@ -41,7 +42,7 @@ namespace JWFramework.Net.Http
 
 		public void Send (byte[] data, object state)
 		{
-			if (sendDataQueue.Count <= 0 && !coreKit.Sending) {
+			if (sendDataQueue.Count <= 0 && !sendBlock && !coreKit.Sending) {
 				this.BeforeMainSend ();
 				this.MainSend (data, state);
 				this.AfterMainSend ();

@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using JWFramework.FSM;
 
-namespace JWFramework.Net.Socket.Base
+namespace JWFramework.Net.Socket.Private
 {
 	public class SocketBaseFSM : FSMachine<SocketState>
 	{
@@ -48,22 +48,15 @@ namespace JWFramework.Net.Socket.Base
 
 	public class SocketConnecting : SocketStateBase
 	{
-		public float connectTime;
+		public float connectTime{ get { return runningTime; } }
 
 		public SocketConnecting (SocketBaseFSM ctrl) : base (SocketState.CONNECTING, ctrl)
 		{
-			connectTime = 0;
 		}
 
-		public override void Enter (SocketState beforeStateType, JWData enterParamData)
+		protected override void _Enter (SocketState beforeStateType, JWData enterParamData)
 		{
-			connectTime = 0;
 			base.Enter (beforeStateType, enterParamData);
-		}
-
-		public override void Tick (float delta)
-		{
-			connectTime += delta;
 		}
 	}
 
@@ -83,14 +76,14 @@ namespace JWFramework.Net.Socket.Base
 			reconnectTime = 0;
 		}
 
-		public override void Enter (SocketState beforeStateType, JWData enterParamData)
+		protected override void _Enter (SocketState beforeStateType, JWData enterParamData)
 		{
 			if (!ctrl.socketBase.baseData.AutoConnect) {
 				ctrl.socketBase.AskReconnectHandler ();
 			}
 		}
 
-		public override void Tick (float delta)
+		protected override void _Tick (float delta)
 		{
 			reconnectTime += delta;
 			if (reconnectTime > ctrl.socketBase.baseData.AutoConnectDelay) {

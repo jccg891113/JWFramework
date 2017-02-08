@@ -8,14 +8,28 @@ namespace JWFramework.FSM
 	{
 		protected readonly FSMachine<T> controller;
 		public readonly T stateType;
+		private float _runningTime;
+
+		/// <summary>
+		/// Get the running time.
+		/// </summary>
+		/// <value>Current state running time(s).</value>
+		public float runningTime{ get { return _runningTime; } }
 
 		public FState (T stateType, FSMachine<T> controller)
 		{
 			this.stateType = stateType;
 			this.controller = controller;
+			_runningTime = 0;
 		}
 
-		public virtual void Enter (T beforeStateType, JWData enterParamData)
+		public void Enter (T beforeStateType, JWData enterParamData)
+		{
+			_runningTime = 0;
+			_Enter (beforeStateType, enterParamData);
+		}
+
+		protected virtual void _Enter (T beforeStateType, JWData enterParamData)
 		{
 		}
 
@@ -25,11 +39,22 @@ namespace JWFramework.FSM
 			return stateType;
 		}
 
-		public virtual void Tick (float delta)
+		public void Tick (float delta)
+		{
+			_Tick (delta);
+			_runningTime += delta;
+		}
+
+		protected virtual void _Tick (float delta)
 		{
 		}
 
-		public virtual void Leave (T nextStateType)
+		public void Leave (T nextStateType)
+		{
+			_Leave (nextStateType);
+		}
+
+		protected virtual void _Leave (T nextStateType)
 		{
 		}
 

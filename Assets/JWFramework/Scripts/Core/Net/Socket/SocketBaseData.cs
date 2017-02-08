@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace JWFramework.Net.Socket.Base
+namespace JWFramework.Net.Socket.Private
 {
 	public class SocketBaseData
 	{
