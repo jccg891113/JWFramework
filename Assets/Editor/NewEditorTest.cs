@@ -30,6 +30,9 @@ public class NewEditorTest
 		
 		Debug.Log (res.Length);
 		
+		System.TimeSpan ts = new System.TimeSpan (25, 1, 1);
+		Debug.Log (string.Format ("{0:00}:{1:00}:{2:00}", ts.TotalHours, ts.Minutes, ts.Seconds));
+		
 		Assert.IsNotEmpty (res);
 		
 	}
