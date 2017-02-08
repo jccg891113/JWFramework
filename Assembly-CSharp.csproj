@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\JWFramework\Plugins\iOS\IOSIPV6.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\Audio\AudioItem.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\Audio\AudioManager.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\FSM\FSMController.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\FSM\FSMState.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\JWData\JWData.cs" />

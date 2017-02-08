@@ -19,22 +19,22 @@ namespace JWFramework
 			}
 		}
 
-		private List<NotificationCenterItem> allSelectors;
+		private List<NotificationCenterItem> selectorPools;
 
 		public NotificationCenter ()
 		{
-			allSelectors = new List<NotificationCenterItem> ();
+			selectorPools = new List<NotificationCenterItem> ();
 		}
 
 		public void AddObserver (object observer, Selector selector, string notificationName, object poster)
 		{
-			allSelectors.Add (new NotificationCenterItem (observer, selector, notificationName, poster));
+			selectorPools.Add (new NotificationCenterItem (observer, selector, notificationName, poster));
 		}
 
 		public void PostNotification (Notification notification)
 		{
 			string notificationName = notification.name;
-			foreach (var item in allSelectors) {
+			foreach (var item in selectorPools) {
 				if (item.notificationName.Equals (notificationName)) {
 					item.selector (notification);
 				}
@@ -53,34 +53,44 @@ namespace JWFramework
 			PostNotification (notification);
 		}
 
+		/// <summary>
+		/// Removes the observer.
+		/// </summary>
+		/// <param name="observer">Observer.</param>
 		public void RemoveObserver (object observer)
 		{
 			RemoveObserver (observer, "", null);
 		}
 
+		/// <summary>
+		/// Removes the observer. If poster or notificationName is null, it's mean ignore this param
+		/// </summary>
+		/// <param name="observer">Observer.</param>
+		/// <param name="notificationName">Notification name.</param>
+		/// <param name="poster">Poster.</param>
 		public void RemoveObserver (object observer, string notificationName, object poster)
 		{
 			bool nameIsNil = string.IsNullOrEmpty (notificationName);
 			bool posterIsNil = (poster == null);
-			for (int i = allSelectors.Count - 1; i >= 0; i--) {
-				var item = allSelectors [i];
+			for (int i = selectorPools.Count - 1; i >= 0; i--) {
+				var item = selectorPools [i];
 				if (item.observer.Equals (observer)) {
 					if (nameIsNil) {
 						if (posterIsNil) {
-							allSelectors.RemoveAt (i);
+							selectorPools.RemoveAt (i);
 						} else {
 							if (item.poster.Equals (poster)) {
-								allSelectors.RemoveAt (i);
+								selectorPools.RemoveAt (i);
 							}
 						}
 					} else {
 						if (posterIsNil) {
 							if (item.notificationName.Equals (notificationName)) {
-								allSelectors.RemoveAt (i);
+								selectorPools.RemoveAt (i);
 							}
 						} else {
 							if (item.notificationName.Equals (notificationName) && item.poster.Equals (poster)) {
-								allSelectors.RemoveAt (i);
+								selectorPools.RemoveAt (i);
 							}
 						}
 					}
