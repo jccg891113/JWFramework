@@ -50,6 +50,8 @@
      <Compile Include="Assets\JWFramework\Scripts\Core\Audio\AudioManager.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\FSM\FSMController.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\FSM\FSMState.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\IInstance\IInstance.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\IInstance\MonoInstance.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\JWData\JWData.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\JWData\JWDataItem.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\JWDebug.cs" />
@@ -66,6 +68,11 @@
      <Compile Include="Assets\JWFramework\Scripts\Core\ObjectPools\GOItem.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\ObjectPools\GameObjectPool.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\ObjectPools\ObjectPools.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\ResourceMgr\ABResItem.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\ResourceMgr\AssetBundleManager.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\ResourceMgr\RResItem.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\ResourceMgr\ResItemBase.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\ResourceMgr\ResourcesManager.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\Scenes\ScenesManager.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\BitTool.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\ColorTool.cs" />
