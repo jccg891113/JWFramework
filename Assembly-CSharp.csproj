@@ -63,12 +63,16 @@
      <Compile Include="Assets\JWFramework\Scripts\Core\Net\Socket\SocketKit.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\Notification\Notification.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\Notification\NotificationCenter.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\ObjectPools\GOItem.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\ObjectPools\GameObjectPool.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\ObjectPools\ObjectPools.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\Scenes\ScenesManager.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\BitTool.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\ColorTool.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\DataCollectTool.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\DateTool.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\FPS.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Tools\FuncTool.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\GameVersionTool.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
