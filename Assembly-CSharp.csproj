@@ -73,6 +73,7 @@
      <Compile Include="Assets\JWFramework\Scripts\Core\ResourceMgr\RResItem.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\ResourceMgr\ResItemBase.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\ResourceMgr\ResourcesManager.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\ResourceUpgrade\ResourceData.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\Scenes\ScenesManager.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\BitTool.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\ColorTool.cs" />

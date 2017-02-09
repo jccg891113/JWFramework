@@ -12,6 +12,7 @@ public class MonoInstance<T> : MonoBehaviour where T : MonoInstance<T>
 				go.transform.position = Vector3.zero;
 				_ins = go.AddComponent<T> ();
 				_ins.Init ();
+				DontDestroyOnLoad (go);
 			}
 			return _ins;
 		}
