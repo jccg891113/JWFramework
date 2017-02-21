@@ -26,7 +26,7 @@ namespace JWFramework.FSM
 		public void Enter (T beforeStateType, JWData enterParamData)
 		{
 			_runningTime = 0;
-			_Enter (beforeStateType, enterParamData);
+			this._Enter (beforeStateType, enterParamData);
 		}
 
 		protected virtual void _Enter (T beforeStateType, JWData enterParamData)
@@ -41,7 +41,7 @@ namespace JWFramework.FSM
 
 		public void Tick (float delta)
 		{
-			_Tick (delta);
+			this._Tick (delta);
 			_runningTime += delta;
 		}
 
@@ -51,7 +51,7 @@ namespace JWFramework.FSM
 
 		public void Leave (T nextStateType)
 		{
-			_Leave (nextStateType);
+			this._Leave (nextStateType);
 		}
 
 		protected virtual void _Leave (T nextStateType)

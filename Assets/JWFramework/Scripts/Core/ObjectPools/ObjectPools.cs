@@ -45,13 +45,6 @@ namespace JWFramework.Resource.Pool
 			return null;
 		}
 
-		public void CleanOneOutPool (string resName)
-		{
-			if (pool.ContainsKey (resName)) {
-				pool [resName].CleanOneOutPool ();
-			}
-		}
-
 		public void Recovery (string resName, GameObject go)
 		{
 			if (pool.ContainsKey (resName)) {

@@ -75,6 +75,16 @@
      <Compile Include="Assets\JWFramework\Scripts\Core\ResourceMgr\ResourcesManager.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\ResourceUpgrade\ResourceData.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\Scenes\ScenesManager.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\UGUI\PageBase.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\UGUI\PageCanvasData.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\UGUI\PageGroup.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\UGUI\PageGroups.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\UGUI\PageHeap.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\UGUI\PageHistoryItem.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\UGUI\PageManager.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\UGUI\PageManagerFunc.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\UGUI\PageTextureData.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\UGUI\QueueList.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\BitTool.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\ColorTool.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\DataCollectTool.cs" />
@@ -82,6 +92,9 @@
      <Compile Include="Assets\JWFramework\Scripts\Tools\FPS.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\FuncTool.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\GameVersionTool.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Tools\RenderQueueKit\RenderQueueKit.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Tools\RenderQueueKit\UIPanelRenderQueueKit.cs" />
+     <Compile Include="Assets\NewBehaviourScript.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

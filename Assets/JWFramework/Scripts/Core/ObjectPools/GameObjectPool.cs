@@ -62,16 +62,6 @@ namespace JWFramework.Resource.Pool
 			}
 		}
 
-		public void CleanOneOutPool ()
-		{
-			if (totalCound > resPool.Count && totalCound > 0) {
-				totalCound -= 1;
-			}
-			if (totalCound <= 0) {
-				Reload (5);
-			}
-		}
-
 		public void Recovery (GameObject go)
 		{
 			if (!resPool.Contains (go)) {
