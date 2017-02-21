@@ -95,6 +95,8 @@
      <Compile Include="Assets\JWFramework\Scripts\Tools\RenderQueueKit\RenderQueueKit.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\RenderQueueKit\UIPanelRenderQueueKit.cs" />
      <Compile Include="Assets\NewBehaviourScript.cs" />
+     <Compile Include="Assets\Resources\PageTestBase.cs" />
+     <Compile Include="Assets\Resources\PageTestCtrl.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

@@ -1,0 +1,17 @@
+/Jack/MyGitHub/JWFramework/Temp/bin/Debug/Assembly-CSharp.dll.mdb
+/Jack/MyGitHub/JWFramework/Temp/bin/Debug/Assembly-CSharp.dll
+/Jack/MyGitHub/JWFramework/obj/Debug/Assembly-CSharp.dll
+/Jack/MyGitHub/JWFramework/obj/Debug/Assembly-CSharp.dll.mdb
+/Jack/MyGitHub/JWFramework/Temp/bin/Debug/UnityEngine.dll
+/Jack/MyGitHub/JWFramework/Temp/bin/Debug/UnityEditor.dll
+/Jack/MyGitHub/JWFramework/Temp/bin/Debug/UnityEngine.UI.dll
+/Jack/MyGitHub/JWFramework/Temp/bin/Debug/UnityEngine.Networking.dll
+/Jack/MyGitHub/JWFramework/Temp/bin/Debug/Mono.Cecil.dll
+/Jack/MyGitHub/JWFramework/Temp/bin/Debug/Unity.SerializationLogic.dll
+/Jack/MyGitHub/JWFramework/Temp/bin/Debug/Unity.DataContract.dll
+/Jack/MyGitHub/JWFramework/Temp/bin/Debug/ICSharpCode.NRefactory.dll
+/Jack/MyGitHub/JWFramework/Temp/bin/Debug/Unity.UNetWeaver.dll
+/Jack/MyGitHub/JWFramework/Temp/bin/Debug/Unity.UNetWeaver.dll.mdb
+/Jack/MyGitHub/JWFramework/Temp/bin/Debug/Unity.CecilTools.dll
+/Jack/MyGitHub/JWFramework/Temp/bin/Debug/Mono.Cecil.Pdb.dll
+/Jack/MyGitHub/JWFramework/Temp/bin/Debug/Mono.Cecil.Mdb.dll

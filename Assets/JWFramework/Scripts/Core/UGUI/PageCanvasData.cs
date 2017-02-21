@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace JWFramework.UGUI.Private
 {
+	[System.Serializable]
 	public class PageCanvasData
 	{
 		Dictionary<Canvas, int> allCanvasBaseOrder;

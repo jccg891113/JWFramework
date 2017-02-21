@@ -10,6 +10,7 @@ namespace JWFramework.UGUI.Private
 		{
 			page.SetOpenParam (param);
 			page.TransPageState (PageState.OPEN);
+			page.transform.localPosition = Vector3.zero;
 			page.gameObject.SetActive (true);
 			page.PageOpen ();
 		}
@@ -17,6 +18,7 @@ namespace JWFramework.UGUI.Private
 		public static void PriPageReopen (this PageBase page)
 		{
 			page.TransPageState (PageState.OPEN);
+			page.transform.localPosition = Vector3.zero;
 			page.gameObject.SetActive (true);
 			page.PageOpen ();
 		}
@@ -24,6 +26,7 @@ namespace JWFramework.UGUI.Private
 		public static void PriPageBack (this PageBase page)
 		{
 			page.TransPageState (PageState.BACKGROUND);
+			page.transform.localPosition = Vector3.zero;
 			page.gameObject.SetActive (true);
 			page.PageBack ();
 		}
@@ -31,7 +34,11 @@ namespace JWFramework.UGUI.Private
 		public static void PriPageHide (this PageBase page)
 		{
 			page.TransPageState (PageState.HIDE);
-			page.gameObject.SetActive (false);
+			if (page.hideType == HideType.OutScreen) {
+				page.transform.localPosition = new Vector3 (3000, 0, 0);
+			} else {
+				page.gameObject.SetActive (false);
+			}
 			page.PageHide ();
 		}
 

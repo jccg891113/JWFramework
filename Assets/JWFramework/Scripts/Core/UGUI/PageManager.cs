@@ -34,6 +34,9 @@ namespace JWFramework.UGUI
 		/// </summary>
 		private PageBase currPage { get { return pageHistory.LastPage; } }
 
+		[SerializeField][Tooltip ("永不释放图集的图集名称")]
+		private List<string> AlwaysInMemoryAtlasName;
+
 		void Awake ()
 		{
 			if (_ins == null) {
@@ -83,10 +86,9 @@ namespace JWFramework.UGUI
 			Object obj = Resources.Load ("Pages/" + pageName);
 			if (obj != null) {
 				GameObject go = Instantiate (obj) as GameObject;
-				go.transform.parent = transform;
-				go.transform.localPosition = Vector3.zero;
-				go.transform.localScale = Vector3.one;
 				go.name = pageName;
+				InitPageTransform (go);
+				InitPageRectTransform (go);
 				page = go.GetComponent<PageBase> ();
 				if (page != null) {
 					page.SetPageName (pageName);
@@ -95,6 +97,22 @@ namespace JWFramework.UGUI
 				}
 			}
 			return page;
+		}
+
+		private void InitPageTransform (GameObject goPage)
+		{
+			goPage.transform.SetParent (transform);
+			goPage.transform.localPosition = Vector3.zero;
+			goPage.transform.localScale = Vector3.one;
+		}
+
+		private void InitPageRectTransform (GameObject goPage)
+		{
+			RectTransform rt = goPage.GetComponent<RectTransform> ();
+			rt.anchorMin = Vector2.zero;
+			rt.anchorMax = Vector2.one;
+			rt.offsetMin = Vector2.zero;
+			rt.offsetMax = Vector2.zero;
 		}
 
 		#endregion
@@ -185,9 +203,9 @@ namespace JWFramework.UGUI
 
 		private void ReleaseUnusedResourcesAfterOpen ()
 		{
-			List<Texture> currGroupTextures = pageHistory.CurrGroupTextures;
+			List<Texture> allGroupImportantTextures = pageHistory.AllGroupImportantTextures;
 			List<Texture> otherGroupTextures = pageHistory.OtherGroupReleaseTextures;
-			ReleaseResource (currGroupTextures, otherGroupTextures);
+			ReleaseResource (allGroupImportantTextures, otherGroupTextures);
 		}
 
 		#endregion
@@ -219,12 +237,13 @@ namespace JWFramework.UGUI
 
 		private void CloseMain (PageBase closePage)
 		{
-			if (NeedHidePage (closePage)) {
+			bool pageWillHide = NeedHidePage (closePage);
+			if (pageWillHide) {
 				HidePage (closePage);
 			} else {
 				ClosePage (closePage);
 			}
-			ReleaseResourceAfterClose (closePage);
+			ReleaseResourceAfterClose (closePage, pageWillHide);
 		}
 
 		private bool NeedHidePage (PageBase closePage)
@@ -284,16 +303,18 @@ namespace JWFramework.UGUI
 
 		#region Close - Main - Release Resource
 
-		private void ReleaseResourceAfterClose (PageBase closePage)
+		private void ReleaseResourceAfterClose (PageBase closePage, bool pageWillHide)
 		{
-			List<Texture> currGroupTextures = pageHistory.CurrGroupTextures;
+			List<Texture> allGroupImportantTextures = pageHistory.AllGroupImportantTextures;
 			List<Texture> otherGroupTextures = pageHistory.OtherGroupReleaseTextures;
-			for (int i = 0, imax = closePage.textureData.referencedTextures.Count; i < imax; i++) {
-				if (!otherGroupTextures.Contains (closePage.textureData.referencedTextures [i])) {
-					otherGroupTextures.Add (closePage.textureData.referencedTextures [i]);
+			if (!pageWillHide || closePage.hideType == HideType.DisableAndRelease) {
+				for (int i = 0, imax = closePage.textureData.referencedTextures.Count; i < imax; i++) {
+					if (!otherGroupTextures.Contains (closePage.textureData.referencedTextures [i])) {
+						otherGroupTextures.Add (closePage.textureData.referencedTextures [i]);
+					}
 				}
 			}
-			ReleaseResource (currGroupTextures, otherGroupTextures);
+			ReleaseResource (allGroupImportantTextures, otherGroupTextures);
 		}
 
 		#endregion
@@ -327,11 +348,51 @@ namespace JWFramework.UGUI
 
 		#endregion
 
+		#region Close And Open
+
+		public void CloseAndOpen (string pageName, JWData param = null)
+		{
+			//close
+			PageBase closePage = this.currPage;
+			if (closePage != null) {
+				RemovePageInMemoryAndGroup ();
+				CloseMain (closePage);
+			}
+			//open
+			PageBase currPage = GetPage (pageName);
+			CloseAndOpenOperationLastPages (closePage, currPage);
+			InitOrSaveParamBeforeOpenPage (currPage);
+			PageShow (currPage, param);
+		}
+
+		private void CloseAndOpenOperationLastPages (PageBase closePage, PageBase newPage)
+		{
+			if (closePage != null) {
+				if (newPage.pageType == PageType.FULL_SCREEN) {
+					HideLastGroup ();
+				} else {
+					BackLastGroup ();
+				}
+			}
+		}
+
+		private void BackLastGroup ()
+		{
+			if (pageHistory.LastGroup != null) {
+				foreach (var _pageName in pageHistory.LastGroup.pageQueue) {
+					var page = pageHistory.GetPage (_pageName);
+					page.PriPageBack ();
+				}
+			}
+		}
+
+		#endregion
+
 		private void ReleaseResource (List<Texture> importantTextures, List<Texture> couldReleaseTextures)
 		{
 			for (int i = 0, imax = couldReleaseTextures.Count; i < imax; i++) {
-				bool couldUnload = !importantTextures.Contains (couldReleaseTextures [i]);
-				if (couldUnload) {
+				bool important = importantTextures.Contains (couldReleaseTextures [i]);
+				if (!important) {
 					Resources.UnloadAsset (couldReleaseTextures [i]);
 				}
 			}
@@ -375,6 +436,16 @@ namespace JWFramework.UGUI
 		public T GetPage<T> ()where T:PageBase
 		{
 			return pageHistory.GetPage<T> ();
+		}
+
+		public bool AtlasCouldRelease (string atlasName)
+		{
+			foreach (var name in AlwaysInMemoryAtlasName) {
+				if (atlasName.IndexOf ("-" + name + "-") > 0) {
+					return false;
+				}
+			}
+			return true;
 		}
 
 		#endregion

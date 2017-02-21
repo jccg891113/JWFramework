@@ -7,7 +7,9 @@ namespace JWFramework.UGUI.Private
 	[System.Serializable]
 	public class PageGroups
 	{
+		[SerializeField]
 		Dictionary<string, PageHistoryItem> allPages;
+		[SerializeField]
 		QueueList<PageGroup> pageGroups;
 
 		public PageBase LastPage {
@@ -46,15 +48,17 @@ namespace JWFramework.UGUI.Private
 			}
 		}
 
-		public List<Texture> CurrGroupTextures {
+		public List<Texture> AllGroupImportantTextures {
 			get {
 				List<Texture> res = new List<Texture> ();
-				if (LastGroup != null) {
-					foreach (var pageName in LastGroup.pageQueue) {
+				for (int i = 0, imax = pageGroups.Count; i < imax; i++) {
+					foreach (var pageName in pageGroups[i].pageQueue) {
 						var page = GetPage (pageName);
-						foreach (var item in page.textureData.referencedTextures) {
-							if (!res.Contains (item)) {
-								res.Add (item);
+						if ((i == imax - 1) || page.hideType == HideType.OutScreen) {
+							foreach (var item in page.textureData.referencedTextures) {
+								if (!res.Contains (item)) {
+									res.Add (item);
+								}
 							}
 						}
 					}
@@ -88,13 +92,13 @@ namespace JWFramework.UGUI.Private
 				for (int i = 0, imax = pageGroups.Count; i < imax; i++) {
 					foreach (var pageName in pageGroups[i].pageQueue) {
 						var page = GetPage (pageName);
-						if (page.hideType == HideType.DisableAndRelease) {
-							foreach (var item in page.textureData.referencedTextures) {
-								if (!res.Contains (item)) {
-									res.Add (item);
-								}
+//						if (page.hideType == HideType.DisableAndRelease) {
+						foreach (var item in page.textureData.referencedTextures) {
+							if (!res.Contains (item)) {
+								res.Add (item);
 							}
 						}
+//						}
 					}
 				}
 				return res;

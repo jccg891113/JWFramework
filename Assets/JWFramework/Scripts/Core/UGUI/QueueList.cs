@@ -4,8 +4,10 @@ using System.Collections.Generic;
 
 namespace JWFramework.UGUI.Private
 {
+	[System.Serializable]
 	public class QueueList<T>
 	{
+		[SerializeField]
 		T[] datas;
 		int size;
 
