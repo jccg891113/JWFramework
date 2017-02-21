@@ -57,6 +57,7 @@ namespace JWFramework.UGUI
 		{
 			PageBase currPage = GetPage (pageName);
 			OpenMain (currPage, param);
+			SortCurrGroup ();
 		}
 
 		#endregion
@@ -220,6 +221,7 @@ namespace JWFramework.UGUI
 				CloseMain (closePage);
 				ReshowOtherPages (closePage);
 			}
+			SortCurrGroup ();
 		}
 
 		#endregion
@@ -352,17 +354,19 @@ namespace JWFramework.UGUI
 
 		public void CloseAndOpen (string pageName, JWData param = null)
 		{
-			//close
+			// close
 			PageBase closePage = this.currPage;
 			if (closePage != null) {
 				RemovePageInMemoryAndGroup ();
 				CloseMain (closePage);
 			}
-			//open
+			// open
 			PageBase currPage = GetPage (pageName);
 			CloseAndOpenOperationLastPages (closePage, currPage);
 			InitOrSaveParamBeforeOpenPage (currPage);
 			PageShow (currPage, param);
+			// sort
+			SortCurrGroup ();
 		}
 
 		private void CloseAndOpenOperationLastPages (PageBase closePage, PageBase newPage)
@@ -446,6 +450,18 @@ namespace JWFramework.UGUI
 				}
 			}
 			return true;
+		}
+
+		private void SortCurrGroup ()
+		{
+			if (pageHistory.LastGroup != null) {
+				int sortAdd = 0;
+				for (int i = 0, imax = pageHistory.LastGroup.pageQueue.Count; i < imax; i++) {
+					var page = pageHistory.GetPage (pageHistory.LastGroup.pageQueue [i]);
+					page.canvasData.ResetAddtionalOrder (sortAdd);
+					sortAdd = page.canvasData.MaxAddOrder + 10;
+				}
+			}
 		}
 
 		#endregion
