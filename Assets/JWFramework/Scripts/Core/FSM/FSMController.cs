@@ -7,6 +7,8 @@ namespace JWFramework.FSM
 {
 	public class FSMachine<T>
 	{
+		public const string Key_BeforeStateNAN = "FSM_CUS_KEY_BSNAN";
+		
 		protected Dictionary<T, FState<T>> statePools = new Dictionary<T, FState<T>> ();
 		
 		private FState<T> currentState = null;
@@ -92,6 +94,9 @@ namespace JWFramework.FSM
 					return;
 				}
 				currentState.Leave (nextStateType);
+				enterParamData.Insert (Key_BeforeStateNAN, false);
+			} else {
+				enterParamData.Insert (Key_BeforeStateNAN, true);
 			}
 			if (statePools.ContainsKey (nextStateType)) {
 				currentState = statePools [nextStateType];

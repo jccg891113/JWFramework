@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using JWFramework.Tools;
+using JWFramework.Resource.Pool.Private;
 
 namespace JWFramework.Resource.Pool
 {

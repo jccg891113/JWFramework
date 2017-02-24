@@ -47,6 +47,10 @@
   <ItemGroup>
      <Compile Include="Assets\Editor\NewEditorTest.cs" />
      <Compile Include="Assets\JWFramework\Editor\CustomPackerPolicy.cs" />
+     <Compile Include="Assets\JWFramework\Editor\JWAnimToolsEditor.cs" />
+     <Compile Include="Assets\JWFramework\Editor\JW_EffectUVAnimEditor.cs" />
+     <Compile Include="Assets\JWFramework\Editor\PrefabLightmapDataEditor.cs" />
+     <None Include="Assets\JWFramework\ReadMe.txt" />
  <Reference Include="UnityEditor.Advertisements">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Advertisements/Editor/UnityEditor.Advertisements.dll</HintPath>
  </Reference>

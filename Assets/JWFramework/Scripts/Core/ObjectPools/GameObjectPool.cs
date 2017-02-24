@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using JWFramework.Tools;
 
-namespace JWFramework.Resource.Pool
+namespace JWFramework.Resource.Pool.Private
 {
 	public class GameObjectPool
 	{

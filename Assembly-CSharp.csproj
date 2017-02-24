@@ -52,6 +52,8 @@
      <Compile Include="Assets\JWFramework\Scripts\Core\FSM\FSMState.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\IInstance\IInstance.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\IInstance\MonoInstance.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\JWAnim\JWAnimBase.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\JWAnim\JWAnimTools.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\JWData\JWData.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\JWData\JWDataItem.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\JWDebug.cs" />
@@ -85,6 +87,8 @@
      <Compile Include="Assets\JWFramework\Scripts\Core\UGUI\PageManagerFunc.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\UGUI\PageTextureData.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\UGUI\QueueList.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Tools\ArtAnim\JW_EffectScale.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Tools\ArtAnim\JW_EffectUVAnim.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\BitTool.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\ColorTool.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\DataCollectTool.cs" />
@@ -92,11 +96,15 @@
      <Compile Include="Assets\JWFramework\Scripts\Tools\FPS.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\FuncTool.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\GameVersionTool.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Tools\PrefabLightmapData.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\RenderQueueKit\RenderQueueKit.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\RenderQueueKit\UIPanelRenderQueueKit.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Tools\ShakeCamera\ShakeCameraCtrl.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Tools\ShakeCamera\ShakeCameraKit.cs" />
      <Compile Include="Assets\NewBehaviourScript.cs" />
      <Compile Include="Assets\Resources\PageTestBase.cs" />
      <Compile Include="Assets\Resources\PageTestCtrl.cs" />
+     <None Include="Assets\JWFramework\ReadMe.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

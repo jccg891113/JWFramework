@@ -12,6 +12,23 @@ This text file contains features, improvements and fixes for each update of the 
 If you experience any issues please contact me at sachuan@foxmail.com.
 
 ---------------------------------------------------------------------------
+Version 1.02
+
+Add:
+- JWAnim组件，用于实现简易脚本动画。当前版本支持进行物体位置、旋转、尺寸、UGUI透明度、UGUI图片填充值的曲线动画。
+- JW_Effect组件。当前版本包含UV动画、尺寸动画。
+- 光照贴图记录插件，用于记录光照贴图在预制体上的存储信息。
+- 摄像头震动插件。
+
+Improvements:
+- 状态机控制器中，在状态切换时填充固定参数，用于状态内部判断前一状态是否为空。
+
+Fixes:
+- 物体池内部使用类命名空间修改至私有空间下。
+
+Other:
+
+---------------------------------------------------------------------------
 Version 1.01
 
 Add:
