@@ -12,6 +12,19 @@ This text file contains features, improvements and fixes for each update of the 
 If you experience any issues please contact me at sachuan@foxmail.com.
 
 ---------------------------------------------------------------------------
+Version 1.03
+
+Add:
+- UGUI文本使用特效。具体新增了粗体效果与文字颜色渐变效果。
+
+Improvements:
+- 通知中心进行修改，杜绝了观察者意外删除下引发的野指针问题。同时在每次发送通知时检测观察者，并从触发表中删除观察者为空的项。
+
+Fixes:
+
+Other:
+
+---------------------------------------------------------------------------
 Version 1.02
 
 Add:
@@ -22,6 +35,8 @@ Add:
 
 Improvements:
 - 状态机控制器中，在状态切换时填充固定参数，用于状态内部判断前一状态是否为空。
+- JWFramework状态机根据使用经验，在Enter时传入上一状态类型、本次状态所需参数（通过JWData传入），在Leave时传入下一状态类型；状态机运行时即可自发式跳转状态，也可在每次心跳中判断跳转条件进行状态跳转；状态机初始后根据默认状态进行自动运行，若无默认状态则等待外部控制开始运行。
+- PageManager of UGUI优化了内存管理，针对每一页面所使用图集根据PageManager中的白名单进行筛选，并在不需要时释放图集以节省内存。同时PageManager of UGUI还引入了排序功能，根据页面分组以及创建页面时记录的层级信息进行重排序，以达到正常显示页面的功能且开发阶段忽视Page之间的层级关系，只需考虑Page内部层级关系即可。
 
 Fixes:
 - 物体池内部使用类命名空间修改至私有空间下。

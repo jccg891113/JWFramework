@@ -53,6 +53,14 @@ namespace JWFramework.Resource.Pool
 			}
 		}
 
+		public void Recovery (GameObject go)
+		{
+			GOItem item = go.GetComponent<GOItem> ();
+			if (item != null && pool.ContainsKey (item.resourceName)) {
+				pool [item.resourceName].Recovery (go);
+			}
+		}
+
 		public void ReloadGameObject (string resName, int count)
 		{
 			if (pool.ContainsKey (resName)) {

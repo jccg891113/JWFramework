@@ -24,7 +24,7 @@ namespace JWFramework.Net.Socket
 
 		public bool Connected { get { return coreKit.connected; } }
 
-		public SocketState CurrState { get { return logicFSM.CurrrentStateType; } }
+		public SocketState CurrState { get { return logicFSM.CurrentStateType; } }
 
 		#endregion
 

@@ -101,6 +101,8 @@
      <Compile Include="Assets\JWFramework\Scripts\Tools\RenderQueueKit\UIPanelRenderQueueKit.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\ShakeCamera\ShakeCameraCtrl.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\ShakeCamera\ShakeCameraKit.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Tools\UGUI Effect\Bold.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Tools\UGUI Effect\Gradient.cs" />
      <Compile Include="Assets\NewBehaviourScript.cs" />
      <Compile Include="Assets\Resources\PageTestBase.cs" />
      <Compile Include="Assets\Resources\PageTestCtrl.cs" />

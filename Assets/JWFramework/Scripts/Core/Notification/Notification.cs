@@ -6,24 +6,24 @@ namespace JWFramework
 	public class Notification
 	{
 		public string name;
-		public object anObject;
+		public object poster;
 		public JWData userInfo;
 
-		private Notification (string name, object anObject, JWData userInfo)
+		private Notification (string name, object poster, JWData userInfo)
 		{
 			this.name = name;
-			this.anObject = anObject;
+			this.poster = poster;
 			this.userInfo = userInfo;
 		}
 
-		public static Notification GetNotification (string name, object anObject)
+		public static Notification GetNotification (string name, object poster)
 		{
-			return new Notification (name, anObject, null);
+			return new Notification (name, poster, null);
 		}
 
-		public static Notification GetNotification (string name, object anObject, JWData userInfo)
+		public static Notification GetNotification (string name, object poster, JWData userInfo)
 		{
-			return new Notification (name, anObject, userInfo);
+			return new Notification (name, poster, userInfo);
 		}
 	}
 }

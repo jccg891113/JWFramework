@@ -6,28 +6,28 @@ namespace JWFramework.UGUI.Private
 	public class PageHistoryItem
 	{
 		public PageBase pageReferenced;
-		private int referencedCoount;
+		private int referencedCount;
 
 		public bool CouldRelease {
 			get {
-				return referencedCoount <= 0;
+				return referencedCount <= 0;
 			}
 		}
 
 		public PageHistoryItem (PageBase page)
 		{
 			pageReferenced = page;
-			referencedCoount = 1;
+			referencedCount = 1;
 		}
 
 		public void AddPage ()
 		{
-			referencedCoount++;
+			referencedCount++;
 		}
 
 		public void RemovePage ()
 		{
-			referencedCoount--;
+			referencedCount--;
 		}
 	}
 }

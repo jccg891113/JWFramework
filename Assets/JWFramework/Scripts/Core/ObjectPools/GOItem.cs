@@ -6,7 +6,7 @@ namespace JWFramework.Resource.Pool
 	public class GOItem : MonoBehaviour
 	{
 		[SerializeField]
-		string resourceName;
+		public string resourceName;
 
 		public void ResourceInit (string resourceName)
 		{

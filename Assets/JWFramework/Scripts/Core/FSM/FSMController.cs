@@ -19,7 +19,7 @@ namespace JWFramework.FSM
 
 		public bool Running { get { return currentState != null; } }
 
-		public T CurrrentStateType { 
+		public T CurrentStateType { 
 			get {
 				if (currentState != null) {
 					return currentState.stateType;

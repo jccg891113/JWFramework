@@ -185,7 +185,7 @@ namespace JWFramework.UGUI
 
 		public void Close ()
 		{
-			PageManager.Ins.Close ();
+			PageManager.Ins.Close (pageName);
 		}
 	}
 }

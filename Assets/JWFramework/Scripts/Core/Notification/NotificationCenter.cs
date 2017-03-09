@@ -24,11 +24,11 @@ namespace JWFramework
 			}
 		}
 
-		private Dictionary<object, List<NotificationCenterItem>> receiversDispatchTable;
+		private List<NotificationCenterTableItem> receiversDispatchTable;
 
 		public NotificationCenter ()
 		{
-			receiversDispatchTable = new Dictionary<object, List<NotificationCenterItem>> ();
+			receiversDispatchTable = new List<NotificationCenterTableItem> ();
 		}
 
 		/// <summary>
@@ -41,7 +41,7 @@ namespace JWFramework
 		/// If you pass null, the notification center doesn’t use a notification’s name to decide whether to deliver it to the observer.</param>
 		/// <param name="poster">The object whose notifications the observer wants to receive; that is, only notifications sent by this sender are delivered to the observer.
 		/// If you pass null, the notification center doesn’t use a notification’s sender to decide whether to deliver it to the observer.</param>
-		public void AddObserver (object observer, Selector selector, string notificationName, object sender)
+		public void AddObserver (object observer, Selector selector, string notificationName, object poster)
 		{
 			if (observer == null) {
 				throw new System.Exception ("The observer must not be null");
@@ -49,10 +49,30 @@ namespace JWFramework
 			if (string.IsNullOrEmpty (notificationName)) {
 				throw new System.Exception ("The notification name must not be null or empty");
 			}
-			if (!receiversDispatchTable.ContainsKey (observer) || receiversDispatchTable [observer] == null) {
-				receiversDispatchTable [observer] = new List<NotificationCenterItem> ();
+			if (!TableContains (observer)) {
+				receiversDispatchTable.Add (new NotificationCenterTableItem (observer));
 			}
-			receiversDispatchTable [observer].Add (new NotificationCenterItem (selector, notificationName, sender));
+			GetTableItem (observer).Add (new NotificationCenterItem (selector, notificationName, poster));
+		}
+
+		private bool TableContains (object observer)
+		{
+			for (int i = 0, imax = receiversDispatchTable.Count; i < imax; i++) {
+				if (receiversDispatchTable [i].observer == observer) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+		private NotificationCenterTableItem GetTableItem (object observer)
+		{
+			for (int i = 0, imax = receiversDispatchTable.Count; i < imax; i++) {
+				if (receiversDispatchTable [i].observer == observer) {
+					return receiversDispatchTable [i];
+				}
+			}
+			return null;
 		}
 
 		/// <summary>
@@ -65,10 +85,14 @@ namespace JWFramework
 				throw new System.Exception ("The notification must not be null");
 			}
 			string notificationName = notification.name;
-			foreach (var receivers in receiversDispatchTable) {
-				foreach (var item in receivers.Value) {
-					if (item.notificationName.Equals (notificationName)) {
-						item.selector (notification);
+			for (int i = 0; i < receiversDispatchTable.Count; i++) {
+				if (receiversDispatchTable [i].observer == null) {
+					receiversDispatchTable.RemoveAt (i--);
+				} else {
+					foreach (var item in receiversDispatchTable [i].notifications) {
+						if (item.notificationName.Equals (notificationName)) {
+							item.selector (notification);
+						}
 					}
 				}
 			}
@@ -119,30 +143,53 @@ namespace JWFramework
 			if (observer == null) {
 				throw new System.Exception ("The observer must not be null");
 			}
-			if (!receiversDispatchTable.ContainsKey (observer)) {
+			if (!TableContains (observer)) {
 				return;
 			}
 			bool nameIsNil = string.IsNullOrEmpty (notificationName);
 			bool posterIsNil = (poster == null);
 			if (nameIsNil && posterIsNil) {
-				receiversDispatchTable.Remove (observer);
+				for (int i = 0; i < receiversDispatchTable.Count; i++) {
+					if (receiversDispatchTable [i].observer == observer) {
+						receiversDispatchTable.RemoveAt (i);
+						break;
+					}
+				}
 			} else {
-				for (int i = receiversDispatchTable [observer].Count - 1; i >= 0; i--) {
-					var item = receiversDispatchTable [observer] [i];
+				var tableItem = GetTableItem (observer);
+				for (int i = tableItem.notifications.Count - 1; i >= 0; i--) {
+					var item = tableItem.notifications [i];
 					if (nameIsNil && !posterIsNil) {
 						if (item.poster.Equals (poster)) {
-							receiversDispatchTable [observer].RemoveAt (i);
+							tableItem.notifications.RemoveAt (i);
 						}
 					} else if (!nameIsNil && posterIsNil) {
 						if (item.notificationName.Equals (notificationName)) {
-							receiversDispatchTable [observer].RemoveAt (i);
+							tableItem.notifications.RemoveAt (i);
 						}
 					} else if (!nameIsNil && !posterIsNil) {
 						if (item.notificationName.Equals (notificationName) && item.poster.Equals (poster)) {
-							receiversDispatchTable [observer].RemoveAt (i);
+							tableItem.notifications.RemoveAt (i);
 						}
 					}
 				}
+			}
+		}
+
+		private class NotificationCenterTableItem
+		{
+			public object observer;
+			public List<NotificationCenterItem> notifications;
+
+			public NotificationCenterTableItem (object observer)
+			{
+				this.observer = observer;
+				this.notifications = new List<NotificationCenterItem> ();
+			}
+
+			public void Add (NotificationCenterItem notification)
+			{
+				notifications.Add (notification);
 			}
 		}
 

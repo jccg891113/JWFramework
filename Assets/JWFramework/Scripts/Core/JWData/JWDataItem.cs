@@ -70,7 +70,7 @@ namespace JWFramework.Private
 		public string GetString (string defaultValue = "")
 		{
 			try {
-				return (string)basedata;
+				return basedata.ToString();
 			} catch {
 			}
 			return defaultValue;

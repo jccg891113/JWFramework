@@ -19,7 +19,10 @@ namespace JWFramework.UGUI
 		}
 
 		[Tooltip ("UI摄像机对应的unity摄像机")]
-		public Camera mainCamera;
+		public Camera uiCamera;
+		
+		[Tooltip ("page页面的根挂载点")]
+		public Transform pageRoot;
 
 		[SerializeField][Tooltip ("已打开页面队列")]
 		private Private.PageGroups pageHistory;
@@ -102,7 +105,7 @@ namespace JWFramework.UGUI
 
 		private void InitPageTransform (GameObject goPage)
 		{
-			goPage.transform.SetParent (transform);
+			goPage.transform.SetParent (pageRoot);
 			goPage.transform.localPosition = Vector3.zero;
 			goPage.transform.localScale = Vector3.one;
 		}
@@ -213,10 +216,21 @@ namespace JWFramework.UGUI
 
 		#region Close
 
-		public void Close ()
+		public void CloseCurrPage ()
 		{
 			PageBase closePage = this.currPage;
 			if (closePage != null) {
+				RemovePageInMemoryAndGroup ();
+				CloseMain (closePage);
+				ReshowOtherPages (closePage);
+			}
+			SortCurrGroup ();
+		}
+
+		public void Close (string pageName)
+		{
+			PageBase closePage = this.currPage;
+			if (closePage != null && closePage.pageName == pageName) {
 				RemovePageInMemoryAndGroup ();
 				CloseMain (closePage);
 				ReshowOtherPages (closePage);
@@ -352,7 +366,7 @@ namespace JWFramework.UGUI
 
 		#region Close And Open
 
-		public void CloseAndOpen (string pageName, JWData param = null)
+		public void CloseCurrAndOpen (string pageName, JWData param = null)
 		{
 			// close
 			PageBase closePage = this.currPage;
@@ -465,5 +479,24 @@ namespace JWFramework.UGUI
 		}
 
 		#endregion
+
+		#if UNITY_EDITOR
+		static Vector3[] fourCorners = new Vector3[4];
+
+		void OnDrawGizmos ()
+		{
+			foreach (UnityEngine.UI.MaskableGraphic g in GameObject.FindObjectsOfType<UnityEngine.UI.MaskableGraphic>()) {
+				if (g.raycastTarget) {
+					RectTransform rectTransform = g.transform as RectTransform;
+					rectTransform.GetWorldCorners (fourCorners);
+					Gizmos.color = Color.red;
+					for (int i = 0; i < 4; i++) {
+//						Debug.DrawLine (fourCorners [i], fourCorners [(i + 1) % 4], Color.red);
+						Gizmos.DrawLine (fourCorners [i], fourCorners [(i + 1) % 4]);
+					}
+				}
+			}
+		}
+		#endif
 	}
 }
