@@ -40,14 +40,7 @@ namespace JWFramework
 		public static void LogError (object message, LogType logType = LogType.normal)
 		{
 			#if UNITY_EDITOR
-			//string consolePath = @"E:\WorkSpace\ZuoYouHuYu\L1Tech\CheckServer\console1.txt";
-			//FileStream fs = new FileStream(consolePath, FileMode.Append, FileAccess.Write);
-			//StreamWriter sw = new StreamWriter(fs);
-			//sw.WriteLine(message.ToString());
-			//sw.Flush();
-			////关闭流
-			//sw.Close();
-			//fs.Close();
+
 			Debug.LogError ("[EDITOR] " + message.ToString ());
 			#else
 			if (LogBlock & (int)logType > 0) {

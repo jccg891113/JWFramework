@@ -12,6 +12,20 @@ This text file contains features, improvements and fixes for each update of the 
 If you experience any issues please contact me at sachuan@foxmail.com.
 
 ---------------------------------------------------------------------------
+Version 1.04
+
+Add:
+- UGUI特效。具体新增UGUI组件的Flip模式，可选择进行镜像；新增文本Spacing特效，控制字间距
+
+Improvements:
+- 状态机状态基类中，加入辅助时间变量，记录当前状态运行时间，并提供方法判断当前时间是否为某一时间点
+
+Fixes:
+- 修复数据存储结构JWData中对于数值的获取，使其进行类型判断并对数据进行强转以避免获取不同类型数值时失败，仅限于int、long、float、double类型
+
+Other:
+
+---------------------------------------------------------------------------
 Version 1.03
 
 Add:

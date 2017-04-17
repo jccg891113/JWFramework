@@ -10,7 +10,7 @@
 -r:'/Applications/Unity/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Common.dll'
 -define:UNITY_5_3_OR_NEWER
 -define:UNITY_5_4_OR_NEWER
--define:UNITY_5_4_3
+-define:UNITY_5_4_4
 -define:UNITY_5_4
 -define:UNITY_5
 -define:ENABLE_NEW_BUGREPORTER
@@ -152,7 +152,9 @@
 'Assets/JWFramework/Scripts/Tools/ShakeCamera/ShakeCameraCtrl.cs'
 'Assets/JWFramework/Scripts/Tools/ShakeCamera/ShakeCameraKit.cs'
 'Assets/JWFramework/Scripts/Tools/UGUI Effect/Bold.cs'
+'Assets/JWFramework/Scripts/Tools/UGUI Effect/Flip.cs'
 'Assets/JWFramework/Scripts/Tools/UGUI Effect/Gradient.cs'
+'Assets/JWFramework/Scripts/Tools/UGUI Effect/Spacing.cs'
 'Assets/NewBehaviourScript.cs'
 'Assets/Resources/PageTestBase.cs'
 'Assets/Resources/PageTestCtrl.cs'

@@ -25,7 +25,18 @@ namespace JWFramework.Private
 		public int GetInt (int defaultValue = -1)
 		{
 			try {
-				return (int)basedata;
+				if (basedata is int) {
+					return (int)basedata;
+				} else if (basedata is long) {
+					long tmp = (long)basedata;
+					return (int)tmp;
+				} else if (basedata is float) {
+					float tmp = (float)basedata;
+					return (int)tmp;
+				} else if (basedata is double) {
+					double tmp = (double)basedata;
+					return (int)tmp;
+				}
 			} catch {
 			}
 			return defaultValue;
@@ -34,7 +45,18 @@ namespace JWFramework.Private
 		public long GetLong (long defaultValue = -1)
 		{
 			try {
-				return (long)basedata;
+				if (basedata is int) {
+					int tmp = (int)basedata;
+					return (long)tmp;
+				} else if (basedata is long) {
+					return (long)basedata;
+				} else if (basedata is float) {
+					float tmp = (float)basedata;
+					return (long)tmp;
+				} else if (basedata is double) {
+					double tmp = (double)basedata;
+					return (long)tmp;
+				}
 			} catch {
 			}
 			return defaultValue;
@@ -43,7 +65,18 @@ namespace JWFramework.Private
 		public float GetFloat (float defaultValue = -1)
 		{
 			try {
-				return (float)basedata;
+				if (basedata is int) {
+					int tmp = (int)basedata;
+					return (float)tmp;
+				} else if (basedata is long) {
+					long tmp = (long)basedata;
+					return (float)tmp;
+				} else if (basedata is float) {
+					return (float)basedata;
+				} else if (basedata is double) {
+					double tmp = (double)basedata;
+					return (float)tmp;
+				}
 			} catch {
 			}
 			return defaultValue;
@@ -52,7 +85,18 @@ namespace JWFramework.Private
 		public double GetDouble (double defaultValue = -1)
 		{
 			try {
-				return (double)basedata;
+				if (basedata is int) {
+					int tmp = (int)basedata;
+					return (double)tmp;
+				} else if (basedata is long) {
+					long tmp = (long)basedata;
+					return (double)tmp;
+				} else if (basedata is float) {
+					float tmp = (float)basedata;
+					return (double)tmp;
+				} else if (basedata is double) {
+					return (double)basedata;
+				}
 			} catch {
 			}
 			return defaultValue;
@@ -70,7 +114,7 @@ namespace JWFramework.Private
 		public string GetString (string defaultValue = "")
 		{
 			try {
-				return basedata.ToString();
+				return basedata.ToString ();
 			} catch {
 			}
 			return defaultValue;

@@ -15,7 +15,7 @@ namespace JWFramework.UGUI.Private
 			referencedTextures = new List<Texture> ();
 			for (int i = 0, imax = allImage.Length; i < imax; i++) {
 				var texture = allImage [i].mainTexture;
-				if (texture.name.StartsWith ("SpriteAtlasTexture") && PageManager.Ins.AtlasCouldRelease (texture.name)) {
+				if (texture != null && texture.name.StartsWith ("SpriteAtlasTexture") && PageManager.Ins.AtlasCouldRelease (texture.name)) {
 					if (!referencedTextures.Contains (texture)) {
 						referencedTextures.Add (texture);
 					}

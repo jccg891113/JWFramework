@@ -29,7 +29,7 @@ namespace JWFramework.Tools
 				shakeTime += Time.deltaTime;
 				if (shakeTime < duration) {
 					transform.localPosition -= deltaPos;
-					float curveP = shakeCurve.Evaluate (shakeTime / duration);
+//					float curveP = shakeCurve.Evaluate (shakeTime / duration);
 					if (isUnitSphere) {
 						deltaPos = Random.insideUnitSphere * strength;
 					} else {

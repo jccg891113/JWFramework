@@ -8,6 +8,7 @@ namespace JWFramework.FSM
 	{
 		protected readonly FSMachine<T> controller;
 		public readonly T stateType;
+		private float _runningBeforeTime;
 		private float _runningTime;
 
 		/// <summary>
@@ -25,6 +26,7 @@ namespace JWFramework.FSM
 
 		public void Enter (T beforeStateType, JWData enterParamData)
 		{
+			_runningBeforeTime = -1;
 			_runningTime = 0;
 			this._Enter (beforeStateType, enterParamData);
 		}
@@ -42,11 +44,17 @@ namespace JWFramework.FSM
 		public void Tick (float delta)
 		{
 			this._Tick (delta);
+			_runningBeforeTime = _runningTime;
 			_runningTime += delta;
 		}
 
 		protected virtual void _Tick (float delta)
 		{
+		}
+
+		protected bool AtTimePoint (float time)
+		{
+			return _runningBeforeTime < time && time <= _runningTime;
 		}
 
 		public void Leave (T nextStateType)

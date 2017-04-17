@@ -88,6 +88,9 @@ namespace JWFramework.FSM
 		public void Goto (T nextStateType, JWData enterParamData, bool allowSameState = false)
 		{
 			T beforeStateType = default(T);
+			if (enterParamData == null) {
+				enterParamData = new JWData ();
+			}
 			if (currentState != null) {
 				beforeStateType = currentState.stateType;
 				if (!allowSameState && Comparer<T>.Default.Compare (nextStateType, beforeStateType) == 0) {

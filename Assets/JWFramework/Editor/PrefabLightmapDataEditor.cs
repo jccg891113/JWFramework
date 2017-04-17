@@ -22,7 +22,7 @@ namespace JWFramework
 
 			EditorUtility.SetDirty (go);
 			//applay prefab
-			PrefabUtility.ReplacePrefab (go, PrefabUtility.GetPrefabParent (go), ReplacePrefabOptions.ConnectToPrefab);
+//			PrefabUtility.ReplacePrefab (go, PrefabUtility.GetPrefabParent (go), ReplacePrefabOptions.ConnectToPrefab);
 		}
 	}
 }

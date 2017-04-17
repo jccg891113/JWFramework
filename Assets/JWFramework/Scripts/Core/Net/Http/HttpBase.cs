@@ -40,7 +40,7 @@ namespace JWFramework.Net.Http
 			UnlockSend ();
 		}
 
-		public void Send (byte[] data, object state)
+		protected void Send (byte[] data, object state)
 		{
 			if (sendDataQueue.Count <= 0 && !sendBlock && !coreKit.Sending) {
 				this.BeforeMainSend ();
