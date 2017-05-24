@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Temp\bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_4_4;UNITY_5_4;UNITY_5;ENABLE_NEW_BUGREPORTER;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EDITOR_RETINA;ENABLE_RETINA_GUISTYLES;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_SPRITE_POLYGON;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;INCLUDE_DIRECTX12;PLATFORM_SUPPORTS_MONO;INCLUDE_PUBNUB;ENABLE_LOCALIZATION;ENABLE_ANDROID_ATLAS_ETC1_COMPRESSION;ENABLE_EDITOR_TESTS_RUNNER;ENABLE_RUNTIME_GI;ENABLE_SUBSTANCE;ENABLE_GAMECENTER;ENABLE_NETWORK;ENABLE_UNITYWEBREQUEST;ENABLE_TEXTUREID_MAP;PLAYERCONNECTION_LISTENS_FIXED_PORT;DEBUGGER_LISTENS_FIXED_PORT;PLATFORM_SUPPORTS_ADS_ID;SUPPORT_ENVIRONMENT_VARIABLES;PLATFORM_SUPPORTS_PROFILER;PLATFORM_HAS_NO_SUPPORT_FOR_BUCKET_ALLOCATOR;STRICTCPP_NEW_DELETE_SIGNATURES;HAS_NEON_SKINNIG;UNITY_INPUT_SIMULATE_EVENTS;PLATFORM_ALWAYS_USES_STDOUT_FOR_LOG;ENABLE_UNITYADS_RUNTIME;UNITY_UNITYADS_API;UNITY_IOS;UNITY_IPHONE;UNITY_IPHONE_API;SUPPORT_MULTIPLE_DISPLAYS;ENABLE_IL2CPP;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE;ENABLE_IOS_ON_DEMAND_RESOURCES;ENABLE_IOS_APP_SLICING</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_4_4;UNITY_5_4;UNITY_5;ENABLE_NEW_BUGREPORTER;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_EDITOR_RETINA;ENABLE_RETINA_GUISTYLES;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_SPRITE_POLYGON;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;INCLUDE_DIRECTX12;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_LOCALIZATION;ENABLE_ANDROID_ATLAS_ETC1_COMPRESSION;ENABLE_EDITOR_TESTS_RUNNER;UNITY_STANDALONE_OSX;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_GAMECENTER;ENABLE_TEXTUREID_MAP;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLUSTERINPUT;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
@@ -52,11 +52,13 @@
      <Compile Include="Assets\JWFramework\Scripts\Core\FSM\FSMState.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\IInstance\IInstance.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\IInstance\MonoInstance.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\IInstance\MonoInstanceGenerater.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\JWAnim\JWAnimBase.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\JWAnim\JWAnimTools.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\JWData\JWData.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\JWData\JWDataItem.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\JWDebug.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\JWStruct\JWList.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\Net\ByteFunc.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\Net\Http\HttpBase.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\Net\Http\HttpKit.cs" />
@@ -68,6 +70,7 @@
      <Compile Include="Assets\JWFramework\Scripts\Core\Notification\Notification.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\Notification\NotificationCenter.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\ObjectPools\GOItem.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\ObjectPools\GOPoolBase.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\ObjectPools\GameObjectPool.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\ObjectPools\ObjectPools.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\ResourceMgr\ABResItem.cs" />
@@ -77,6 +80,7 @@
      <Compile Include="Assets\JWFramework\Scripts\Core\ResourceMgr\ResourcesManager.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\ResourceUpgrade\ResourceData.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\Scenes\ScenesManager.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\Touch3D\JWTouch3DCamera.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\UGUI\PageBase.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\UGUI\PageCanvasData.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\UGUI\PageGroup.cs" />
@@ -86,6 +90,8 @@
      <Compile Include="Assets\JWFramework\Scripts\Core\UGUI\PageManager.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\UGUI\PageManagerFunc.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\UGUI\PageTextureData.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\UGUI\Private\PageManagerCore.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\UGUI\Private\PageManagerEvent.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\UGUI\QueueList.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\ArtAnim\JW_EffectScale.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Tools\ArtAnim\JW_EffectUVAnim.cs" />
@@ -108,6 +114,7 @@
      <Compile Include="Assets\NewBehaviourScript.cs" />
      <Compile Include="Assets\Resources\PageTestBase.cs" />
      <Compile Include="Assets\Resources\PageTestCtrl.cs" />
+     <Compile Include="Assets\test3d.cs" />
      <None Include="Assets\JWFramework\ReadMe.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

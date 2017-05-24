@@ -15,9 +15,19 @@ namespace JWFramework
 			return UnityEngine.SceneManagement.SceneManager.LoadSceneAsync (sceneName, mode);
 		}
 
+		public static UnityEngine.SceneManagement.Scene GetScene (string sceneName)
+		{
+			return UnityEngine.SceneManagement.SceneManager.GetSceneByName (sceneName);
+		}
+
 		public static void UnloadScene (string sceneName)
 		{
 			UnityEngine.SceneManagement.SceneManager.UnloadScene (sceneName);
+		}
+
+		public static void UnloadScene (UnityEngine.SceneManagement.Scene scene)
+		{
+			UnityEngine.SceneManagement.SceneManager.UnloadScene (scene);
 		}
 
 		public static void MoveGameObjectToScene (GameObject go, string sceneName)

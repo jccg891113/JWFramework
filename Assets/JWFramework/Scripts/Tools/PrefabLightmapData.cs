@@ -49,7 +49,10 @@ namespace JWFramework
 			LightmapData[] ldata = LightmapSettings.lightmaps;
 			lightmapTexs = new Texture2D[ldata.Length];
 			for (int t = 0, tLength = ldata.Length; t < tLength; ++t) {
+				#if UNITY_5_5_OR_NEWER
+				#else
 				lightmapTexs [t] = ldata [t].lightmapFar;
+				#endif
 			}
 		}
 
@@ -92,7 +95,10 @@ namespace JWFramework
 
 			for (int t = 0, tLength = lightmapTexs.Length; t < tLength; ++t) {
 				ldata [t] = new LightmapData ();
+				#if UNITY_5_5_OR_NEWER
+				#else
 				ldata [t].lightmapFar = lightmapTexs [t];
+				#endif
 			}
 
 			LightmapSettings.lightmaps = ldata;

@@ -9,6 +9,7 @@ namespace JWFramework.UGUI.Private
 	{
 		[SerializeField]
 		T[] datas;
+		[SerializeField]
 		int size;
 
 		public int Count {

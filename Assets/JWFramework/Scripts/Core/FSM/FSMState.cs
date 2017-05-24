@@ -43,9 +43,9 @@ namespace JWFramework.FSM
 
 		public void Tick (float delta)
 		{
-			this._Tick (delta);
 			_runningBeforeTime = _runningTime;
 			_runningTime += delta;
+			this._Tick (delta);
 		}
 
 		protected virtual void _Tick (float delta)

@@ -32,6 +32,8 @@ namespace JWFramework.UGUI.Private
 			}
 		}
 
+		public int PageGroupCount{ get { return pageGroups.Count; } }
+
 		public PageGroups ()
 		{
 			allPages = new Dictionary<string, PageHistoryItem> ();

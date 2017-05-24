@@ -7,15 +7,17 @@ namespace JWFramework.Resource.Pool
 	{
 		[SerializeField]
 		public string resourceName;
+		public ObjectPools recoveryRoot;
 
-		public void ResourceInit (string resourceName)
+		public void ResourceInit (string resourceName, ObjectPools recoveryRoot)
 		{
 			this.resourceName = resourceName;
+			this.recoveryRoot = recoveryRoot;
 		}
 
 		public void Recovery ()
 		{
-			ObjectPools.Default.Recovery (resourceName, gameObject);
+			recoveryRoot.Recovery (resourceName, gameObject);
 		}
 	}
 }

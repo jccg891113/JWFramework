@@ -26,6 +26,9 @@ namespace JWFramework.Anim
 		public bool scaleOfZ = true;
 		public UnityEngine.UI.Image image;
 		public List<CanvasGroup> alphaGroup = new List<CanvasGroup> ();
+		public Color beginColor = Color.white;
+		public Color endColor = Color.white;
+		public List<UnityEngine.UI.Graphic> colorGroup = new List<UnityEngine.UI.Graphic> ();
 
 		#endregion
 
@@ -110,6 +113,9 @@ namespace JWFramework.Anim
 			case UIAnimType.UGUI_ImageFilled:
 				ImageFilledUpdate (p);
 				break;
+			case UIAnimType.UGUI_Color:
+				ColorUpdate (p);
+				break;
 			}
 		}
 
@@ -155,6 +161,17 @@ namespace JWFramework.Anim
 			image.fillAmount = p;
 		}
 
+		private void ColorUpdate (float p)
+		{
+			if (colorGroup != null) {
+				foreach (var item in colorGroup) {
+					if (item != null) {
+						item.color = Color.Lerp (beginColor, endColor, p);
+					}
+				}
+			}
+		}
+
 		#endregion
 
 		#region Begin Value
@@ -186,6 +203,7 @@ namespace JWFramework.Anim
 		Scale,
 		UGUI_Alpha,
 		UGUI_ImageFilled,
+		UGUI_Color,
 	}
 
 	public enum UIAnimPlayMode

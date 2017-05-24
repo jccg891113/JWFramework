@@ -71,7 +71,7 @@ namespace JWFramework.UGUI
 			lastState = PageState.CLOSE;
 			currState = PageState.CLOSE;
 			canvasData = new PageCanvasData (GetComponentsInChildren<Canvas> ());
-			textureData = new PageTextureData (GetComponentsInChildren<Image> ());
+			textureData.Init (GetComponentsInChildren<Image> ());
 			this._InitFirstOpen ();
 		}
 
@@ -121,37 +121,65 @@ namespace JWFramework.UGUI
 
 		protected string GetParamString (string key, string defaultValue = "")
 		{
-			return param.GetString (key, defaultValue);
+			if (ParamContains (key)) {
+				return param.GetString (key, defaultValue);
+			} else {
+				return defaultValue;
+			}
 		}
 
 		protected int GetParamInt (string key, int defaultValue = -1)
 		{
-			return param.GetInt (key, defaultValue);
+			if (ParamContains (key)) {
+				return param.GetInt (key, defaultValue);
+			} else {
+				return defaultValue;
+			}
 		}
 
 		protected float GetParamFloat (string key, float defaultValue = -1)
 		{
-			return param.GetFloat (key, defaultValue);
+			if (ParamContains (key)) {
+				return param.GetFloat (key, defaultValue);
+			} else {
+				return defaultValue;
+			}
 		}
 
 		protected double GetParamDouble (string key, double defaultValue = -1)
 		{
-			return param.GetDouble (key, defaultValue);
+			if (ParamContains (key)) {
+				return param.GetDouble (key, defaultValue);
+			} else {
+				return defaultValue;
+			}
 		}
 
 		protected long GetParamLong (string key, long defaultValue = -1)
 		{
-			return param.GetLong (key, defaultValue);
+			if (ParamContains (key)) {
+				return param.GetLong (key, defaultValue);
+			} else {
+				return defaultValue;
+			}
 		}
 
 		protected bool GetParamBool (string key, bool defaultValue = false)
 		{
-			return param.GetBool (key, defaultValue);
+			if (ParamContains (key)) {
+				return param.GetBool (key, defaultValue);
+			} else {
+				return defaultValue;
+			}
 		}
 
 		protected object GetParamObject (string key, object defaultValue = null)
 		{
-			return param.GetObject (key, defaultValue);
+			if (ParamContains (key)) {
+				return param.GetObject (key, defaultValue);
+			} else {
+				return defaultValue;
+			}
 		}
 
 		#endregion

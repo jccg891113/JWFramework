@@ -94,7 +94,7 @@ namespace JWFramework.Anim
 			}
 		}
 
-		void AskPlay (string animName)
+		void _JWFramework_Anim_JWAnimTools_AskPlay (string animName)
 		{
 			if (AnimGroupName == animName) {
 				SetToBeginValue ();
@@ -104,7 +104,12 @@ namespace JWFramework.Anim
 
 		public static void PlayAnim (GameObject target, string animGroupName)
 		{
-			target.SendMessage ("AskPlay", animGroupName);
+			target.SendMessage ("_JWFramework_Anim_JWAnimTools_AskPlay", animGroupName);
+		}
+
+		public static void BroadcastAnim (GameObject target, string animGroupName)
+		{
+			target.BroadcastMessage ("_JWFramework_Anim_JWAnimTools_AskPlay", animGroupName);
 		}
 	}
 }

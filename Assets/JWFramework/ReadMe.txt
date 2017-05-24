@@ -12,10 +12,28 @@ This text file contains features, improvements and fixes for each update of the 
 If you experience any issues please contact me at sachuan@foxmail.com.
 
 ---------------------------------------------------------------------------
+Version 1.05
+
+Add:
+- JWTouch3DCamera，加入3D触屏控制脚本，依据NGUI的UICamera改编
+- JWList，改写NGUI的BetterList，增加多个List方法并优化排序算法
+
+Improvements:
+- UI的PageBase取参数加入判断，避免JWData底层报错。
+- 对象池修改，将GameObject池分为公共使用与内部使用两种。公共使用可供UI或3D单独使用，便于管理。
+- 页面管理器代码结构调整。
+- JWAnim组件新增UGUI颜色控制功能，针对UGUI的Graphic单元进行颜色的渐变等操作。
+
+Fixes:
+- 页面管理中，释放页面引用UGUI图集时，可能引起的释放已经释放的图集而导致的空指针。
+
+Other:
+
+---------------------------------------------------------------------------
 Version 1.04
 
 Add:
-- UGUI特效。具体新增UGUI组件的Flip模式，可选择进行镜像；新增文本Spacing特效，控制字间距
+- UGUI特效。具体新增UGUI组件的Flip模式，可选择进行镜像
 
 Improvements:
 - 状态机状态基类中，加入辅助时间变量，记录当前状态运行时间，并提供方法判断当前时间是否为某一时间点

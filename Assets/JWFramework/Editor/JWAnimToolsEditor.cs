@@ -31,12 +31,12 @@ public class JWAnimToolsEditor : Editor
 		}
 		for (int i = 0, imax = anims.arraySize; i < imax; i++) {
 			JWAnimBase uiAnimBase = uiAnimTools.anims [i];
-			if (DrawHeader (string.Format ("Anim Event {0}: {1}", i, uiAnimBase.animType))) {
-				BeginContents ();
+			if (JWEditorTools.DrawHeader (string.Format ("Anim Event {0}: {1}", i, uiAnimBase.animType))) {
+				JWEditorTools.BeginContents ();
 				{
 					uiAnimBase.animType = (UIAnimType)EditorGUILayout.EnumPopup ("Anim Type", uiAnimBase.animType);
 					if (uiAnimBase.animType != UIAnimType.None) {
-						if (DrawHeader ("Base Attribute")) {
+						if (JWEditorTools.DrawHeader ("Base Attribute")) {
 							uiAnimBase.playMode = (UIAnimPlayMode)EditorGUILayout.EnumPopup ("Anim Play Mode", uiAnimBase.playMode);
 							uiAnimBase.delay = EditorGUILayout.FloatField ("Start Delay", uiAnimBase.delay);
 							if (useUnifiedDuration) {
@@ -53,7 +53,7 @@ public class JWAnimToolsEditor : Editor
 					switch (uiAnimBase.animType) {
 					case UIAnimType.Position:
 						{
-							if (DrawHeader ("Position Anim Attribute")) {
+							if (JWEditorTools.DrawHeader ("Position Anim Attribute")) {
 								uiAnimBase.beginVec3 = EditorGUILayout.Vector3Field ("Anim Begin Position", uiAnimBase.beginVec3);
 								uiAnimBase.endVec3 = EditorGUILayout.Vector3Field ("Anim End Position", uiAnimBase.endVec3);
 								uiAnimBase.curve = EditorGUILayout.CurveField ("Position Curve", uiAnimBase.curve);
@@ -62,7 +62,7 @@ public class JWAnimToolsEditor : Editor
 						break;
 					case UIAnimType.Euler:
 						{
-							if (DrawHeader ("Euler Anim Attribute")) {
+							if (JWEditorTools.DrawHeader ("Euler Anim Attribute")) {
 								uiAnimBase.beginVec3 = EditorGUILayout.Vector3Field ("Anim Begin Euler", uiAnimBase.beginVec3);
 								uiAnimBase.endVec3 = EditorGUILayout.Vector3Field ("Anim End Euler", uiAnimBase.endVec3);
 								uiAnimBase.curve = EditorGUILayout.CurveField ("Euler Curve", uiAnimBase.curve);
@@ -71,7 +71,7 @@ public class JWAnimToolsEditor : Editor
 						break;
 					case UIAnimType.Scale:
 						{
-							if (DrawHeader ("Scale Anim Attribute")) {
+							if (JWEditorTools.DrawHeader ("Scale Anim Attribute")) {
 								uiAnimBase.curve = EditorGUILayout.CurveField ("Scale Curve", uiAnimBase.curve);
 								uiAnimBase.scaleOfX = EditorGUILayout.ToggleLeft ("Use to Scale X", uiAnimBase.scaleOfX);
 								uiAnimBase.scaleOfY = EditorGUILayout.ToggleLeft ("Use to Scale Y", uiAnimBase.scaleOfY);
@@ -81,7 +81,7 @@ public class JWAnimToolsEditor : Editor
 						break;
 					case UIAnimType.UGUI_Alpha:
 						{
-							if (DrawHeader ("Alpha Anim Attribute")) {
+							if (JWEditorTools.DrawHeader ("Alpha Anim Attribute")) {
 								if (uiAnimBase.alphaGroup == null) {
 									uiAnimBase.alphaGroup = new System.Collections.Generic.List<CanvasGroup> ();
 								}
@@ -102,15 +102,38 @@ public class JWAnimToolsEditor : Editor
 						break;
 					case UIAnimType.UGUI_ImageFilled:
 						{
-							if (DrawHeader ("Image Filled Anim Attribute")) {
+							if (JWEditorTools.DrawHeader ("Image Filled Anim Attribute")) {
 								uiAnimBase.curve = EditorGUILayout.CurveField ("Image Filled Curve", uiAnimBase.curve);
 								uiAnimBase.image = (UnityEngine.UI.Image)EditorGUILayout.ObjectField ("Target Image ", uiAnimBase.image, typeof(UnityEngine.UI.Image), true);
 							}
 						}
 						break;
+					case UIAnimType.UGUI_Color:
+						{
+							if (JWEditorTools.DrawHeader ("Color Anim Attribute")) {
+								if (uiAnimBase.colorGroup == null) {
+									uiAnimBase.colorGroup = new System.Collections.Generic.List<UnityEngine.UI.Graphic> ();
+								}
+								uiAnimBase.curve = EditorGUILayout.CurveField ("Color Curve", uiAnimBase.curve);
+								uiAnimBase.beginColor = EditorGUILayout.ColorField ("Begin Color", uiAnimBase.beginColor);
+								uiAnimBase.endColor = EditorGUILayout.ColorField ("End Color", uiAnimBase.endColor);
+								int colorItemCount = EditorGUILayout.IntField ("Color Rect", uiAnimBase.colorGroup.Count);
+								while (colorItemCount != uiAnimBase.colorGroup.Count) {
+									if (colorItemCount > uiAnimBase.colorGroup.Count) {
+										uiAnimBase.colorGroup.Add (null);
+									} else {
+										uiAnimBase.colorGroup.RemoveAt (uiAnimBase.colorGroup.Count - 1);
+									}
+								}
+								for (int j = 0, jmax = uiAnimBase.colorGroup.Count; j < jmax; j++) {
+									uiAnimBase.colorGroup [j] = (UnityEngine.UI.Graphic)EditorGUILayout.ObjectField ("    Element " + j, uiAnimBase.colorGroup [j], typeof(UnityEngine.UI.Graphic), true);
+								}
+							}
+						}
+						break;
 					}
 				}
-				EndContents ();
+				JWEditorTools.EndContents ();
 			}
 		}
 
@@ -148,61 +171,5 @@ public class JWAnimToolsEditor : Editor
 		}
 
 		serializedObject.ApplyModifiedProperties ();
-	}
-
-	/// <summary>
-	/// Draw a distinctly different looking header label
-	/// </summary>
-
-	static public bool DrawHeader (string text)
-	{
-		return DrawHeader (text, text, false, false);
-	}
-
-	/// <summary>
-	/// Draw a distinctly different looking header label
-	/// </summary>
-
-	static public bool DrawHeader (string text, string key, bool forceOn, bool minimalistic)
-	{
-		bool state = EditorPrefs.GetBool (key, true);
-		GUILayout.Space (3f);
-		if (!forceOn && !state)
-			GUI.backgroundColor = new Color (0.8f, 0.8f, 0.8f);
-		GUILayout.BeginHorizontal ();
-		GUI.changed = false;
-		text = "<b><size=11>" + text + "</size></b>";
-		if (state)
-			text = "\u25BC " + text;
-		else
-			text = "\u25BA " + text;
-		if (!GUILayout.Toggle (true, text, "dragtab", GUILayout.MinWidth (20f)))
-			state = !state;
-		if (GUI.changed)
-			EditorPrefs.SetBool (key, state);
-		GUILayout.Space (2f);
-		GUILayout.EndHorizontal ();
-		GUI.backgroundColor = Color.white;
-		if (!forceOn && !state)
-			GUILayout.Space (3f);
-		return state;
-	}
-
-	static public void BeginContents ()
-	{
-		GUILayout.BeginHorizontal ();
-		EditorGUILayout.BeginHorizontal ("AS TextArea", GUILayout.MinHeight (10f));
-		GUILayout.BeginVertical ();
-		GUILayout.Space (2f);
-	}
-
-	static public void EndContents ()
-	{
-		GUILayout.Space (3f);
-		GUILayout.EndVertical ();
-		EditorGUILayout.EndHorizontal ();
-		GUILayout.Space (3f);
-		GUILayout.EndHorizontal ();
-		GUILayout.Space (3f);
 	}
 }

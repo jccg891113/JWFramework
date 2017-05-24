@@ -55,7 +55,10 @@ namespace JWFramework.Resource.Assets.Private
 
 		public void Clean ()
 		{
-			Resources.UnloadAsset (assetObject);
+//			try {
+//				Resources.UnloadAsset (assetObject);
+//			} catch {
+//			}
 			assetObject = null;
 		}
 	}

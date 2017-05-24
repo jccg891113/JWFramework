@@ -13,11 +13,13 @@ namespace JWFramework.Resource.Pool
 		public static ObjectPools Default {
 			get {
 				if (_instance == null) {
-					GameObject go = new GameObject ("JWFramework_GameObjectPool");
-					go.transform.localScale = Vector3.one;
-					go.transform.position = new Vector3 (10000, 0, 0);
-					_instance = go.AddComponent<ObjectPools> ();
-					DontDestroyOnLoad (go);
+					_instance = MonoInstanceGenerater<ObjectPools>.GenerateIns (new Vector3 (10000, 0, 0));
+					
+//					GameObject go = new GameObject ("JWFramework_GameObjectPool");
+//					go.transform.localScale = Vector3.one;
+//					go.transform.position = new Vector3 (10000, 0, 0);
+//					_instance = go.AddComponent<ObjectPools> ();
+//					DontDestroyOnLoad (go);
 				}
 				return _instance;
 			}
@@ -33,7 +35,7 @@ namespace JWFramework.Resource.Pool
 				JWDebug.LogError ("GameObject pool error because the Object of resource \"" + resName + "\" is NAN");
 			} else {
 				if (!pool.ContainsKey (resName)) {
-					pool.Add (resName, new GameObjectPool (resName, resource, count));
+					pool.Add (resName, new GameObjectPool (resName, resource, count, this));
 				}
 			}
 		}
@@ -85,9 +87,13 @@ namespace JWFramework.Resource.Pool
 
 		public IEnumerator CleanAllAsyc ()
 		{
+			System.DateTime clock = System.DateTime.Now;
 			foreach (var item in pool) {
 				item.Value.Clean ();
-				yield return new WaitForEndOfFrame ();
+				if ((System.DateTime.Now - clock).TotalMilliseconds > 50) {
+					clock = System.DateTime.Now;
+					yield return new WaitForEndOfFrame ();
+				}
 			}
 			pool.Clear ();
 		}

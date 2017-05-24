@@ -8,6 +8,8 @@ namespace JWFramework.UGUI
 	[AddComponentMenu ("UI/Effects/Text Bold")]
 	public class Bold : BaseMeshEffect
 	{
+		public int boldCount = 4;
+
 		public override void ModifyMesh (VertexHelper vh)
 		{
 			if (!IsActive ()) {
@@ -24,7 +26,7 @@ namespace JWFramework.UGUI
 				vertexs.Add (vertex);
 			}
 			vh.Clear ();
-			for (int i = 0; i < 4; i++) {
+			for (int i = 0; i < boldCount; i++) {
 				for (int j = 0; j < count; j++) {
 					var vertex = vertexs [j];
 					vh.AddVert (vertex.position, vertex.color, vertex.uv0, vertex.uv1, vertex.normal, vertex.tangent);

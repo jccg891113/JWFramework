@@ -20,7 +20,7 @@ namespace JWFramework
 			#if UNITY_EDITOR
 			Debug.Log ("[EDITOR] " + message.ToString ());
 			#else
-			if (LogBlock & (int)logType > 0) {
+			if ((LogBlock & (int)logType) > 0) {
 				Debug.Log ("[EDITOR] " + message.ToString ());
 			}
 			#endif
@@ -31,7 +31,7 @@ namespace JWFramework
 			#if UNITY_EDITOR
 			Debug.LogWarning ("[EDITOR] " + message.ToString ());
 			#else
-			if (LogBlock & (int)logType > 0) {
+			if ((LogBlock & (int)logType) > 0) {
 				Debug.LogWarning ("[EDITOR] " + message.ToString ());
 			}
 			#endif
@@ -43,7 +43,7 @@ namespace JWFramework
 
 			Debug.LogError ("[EDITOR] " + message.ToString ());
 			#else
-			if (LogBlock & (int)logType > 0) {
+			if ((LogBlock & (int)logType) > 0) {
 				Debug.LogError ("[EDITOR] " + message.ToString ());
 			}
 			#endif
