@@ -12,6 +12,18 @@ This text file contains features, improvements and fixes for each update of the 
 If you experience any issues please contact me at sachuan@foxmail.com.
 
 ---------------------------------------------------------------------------
+Version 1.06
+
+Add:
+- JWContentSizeGridLayoutGroup，针对UGUI的Grid组件进行优化，融合ContentSizeFilter组件。核心去除原生Grid对于未显示item的操作，使隐藏item依然占据原有排位，从而实现只显示可显示区域内的item，减少渲染压力
+
+Improvements:
+
+Fixes:
+
+Other:
+
+---------------------------------------------------------------------------
 Version 1.05
 
 Add:

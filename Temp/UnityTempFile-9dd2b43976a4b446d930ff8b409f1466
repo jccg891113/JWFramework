@@ -121,6 +121,7 @@
 'Assets/JWFramework/Scripts/Core/ResourceUpgrade/ResourceData.cs'
 'Assets/JWFramework/Scripts/Core/Scenes/ScenesManager.cs'
 'Assets/JWFramework/Scripts/Core/Touch3D/JWTouch3DCamera.cs'
+'Assets/JWFramework/Scripts/Core/UGUI/ExtendKits/JWContentSizeGridLayoutGroup.cs'
 'Assets/JWFramework/Scripts/Core/UGUI/PageBase.cs'
 'Assets/JWFramework/Scripts/Core/UGUI/PageCanvasData.cs'
 'Assets/JWFramework/Scripts/Core/UGUI/PageGroup.cs'

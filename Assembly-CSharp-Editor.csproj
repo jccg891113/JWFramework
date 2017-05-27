@@ -49,6 +49,7 @@
      <Compile Include="Assets\JWFramework\Editor\CustomPackerPolicy.cs" />
      <Compile Include="Assets\JWFramework\Editor\GetGameObjectPath.cs" />
      <Compile Include="Assets\JWFramework\Editor\JWAnimToolsEditor.cs" />
+     <Compile Include="Assets\JWFramework\Editor\JWContentSizeGridLayoutGroupEditor.cs" />
      <Compile Include="Assets\JWFramework\Editor\JWEditorTools.cs" />
      <Compile Include="Assets\JWFramework\Editor\JWTouch3DCameraEditor.cs" />
      <Compile Include="Assets\JWFramework\Editor\JW_EffectUVAnimEditor.cs" />

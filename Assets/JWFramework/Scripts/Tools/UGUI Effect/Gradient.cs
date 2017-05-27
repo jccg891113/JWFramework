@@ -12,6 +12,8 @@ namespace JWFramework.UGUI
 		private Color32 topColor = Color.white;
 		[SerializeField]
 		private Color32 bottomColor = Color.black;
+		[SerializeField]
+		private bool useGraphicAlpha = true;
 
 		public override void ModifyMesh (VertexHelper vh)
 		{
@@ -46,8 +48,11 @@ namespace JWFramework.UGUI
 			for (var i = 0; i < count; i++) {
 				var vertex = vertexs [i];
 
-				var color = Color32.Lerp (bottomColor, topColor, (vertex.position.y - bottomY) / height);
-
+				Color color = Color32.Lerp (bottomColor, topColor, (vertex.position.y - bottomY) / height);
+				if (useGraphicAlpha) {
+					color.a = color.a * ((int)vertex.color.a / 255f);
+				}
+				
 				vertex.color = color;
 
 				vh.SetUIVertex (vertex, i);

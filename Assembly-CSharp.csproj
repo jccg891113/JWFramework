@@ -81,6 +81,7 @@
      <Compile Include="Assets\JWFramework\Scripts\Core\ResourceUpgrade\ResourceData.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\Scenes\ScenesManager.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\Touch3D\JWTouch3DCamera.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\UGUI\ExtendKits\JWContentSizeGridLayoutGroup.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\UGUI\PageBase.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\UGUI\PageCanvasData.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\UGUI\PageGroup.cs" />

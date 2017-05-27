@@ -100,6 +100,7 @@
 'Assets/JWFramework/Editor/CustomPackerPolicy.cs'
 'Assets/JWFramework/Editor/GetGameObjectPath.cs'
 'Assets/JWFramework/Editor/JWAnimToolsEditor.cs'
+'Assets/JWFramework/Editor/JWContentSizeGridLayoutGroupEditor.cs'
 'Assets/JWFramework/Editor/JWEditorTools.cs'
 'Assets/JWFramework/Editor/JWTouch3DCameraEditor.cs'
 'Assets/JWFramework/Editor/JW_EffectUVAnimEditor.cs'
