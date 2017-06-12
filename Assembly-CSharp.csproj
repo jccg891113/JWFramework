@@ -59,6 +59,9 @@
      <Compile Include="Assets\JWFramework\Scripts\Core\JWData\JWDataItem.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\JWDebug.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\JWStruct\JWList.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\MVCInterface\Model\IModel.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\MVCInterface\Model\ModelBase.cs" />
+     <Compile Include="Assets\JWFramework\Scripts\Core\MVCInterface\View\JWViewBase.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\Net\ByteFunc.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\Net\Http\HttpBase.cs" />
      <Compile Include="Assets\JWFramework\Scripts\Core\Net\Http\HttpKit.cs" />

@@ -99,6 +99,7 @@
 'Assets/JWFramework/Scripts/Core/JWData/JWDataItem.cs'
 'Assets/JWFramework/Scripts/Core/JWDebug.cs'
 'Assets/JWFramework/Scripts/Core/JWStruct/JWList.cs'
+'Assets/JWFramework/Scripts/Core/MVCInterface/View/JWViewBase.cs'
 'Assets/JWFramework/Scripts/Core/Net/ByteFunc.cs'
 'Assets/JWFramework/Scripts/Core/Net/Http/HttpBase.cs'
 'Assets/JWFramework/Scripts/Core/Net/Http/HttpKit.cs'
