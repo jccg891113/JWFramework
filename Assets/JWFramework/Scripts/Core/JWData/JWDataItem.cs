@@ -5,16 +5,40 @@ namespace JWFramework.Private
 {
 	public class JWDataItem
 	{
+		private enum DataType
+		{
+			Int,
+			Long,
+			Float,
+			Double,
+			Bool,
+			Refrence,
+		}
+
 		private object basedata;
+		private DataType dataType;
 
 		public JWDataItem (object basedata)
 		{
-			this.basedata = basedata;
+			ChangeValue (basedata);
 		}
 
 		public void ChangeValue (object newData)
 		{
 			this.basedata = newData;
+			if (newData is int) {
+				dataType = DataType.Int;
+			} else if (newData is long) {
+				dataType = DataType.Long;
+			} else if (newData is float) {
+				dataType = DataType.Float;
+			} else if (newData is double) {
+				dataType = DataType.Double;
+			} else if (newData is bool) {
+				dataType = DataType.Bool;
+			} else {
+				dataType = DataType.Refrence;
+			}
 		}
 
 		public object GetObject ()
@@ -22,102 +46,95 @@ namespace JWFramework.Private
 			return basedata;
 		}
 
-		public int GetInt (int defaultValue = -1)
+		public int GetInt (int defaultValue)
 		{
-			try {
-				if (basedata is int) {
-					return (int)basedata;
-				} else if (basedata is long) {
-					long tmp = (long)basedata;
-					return (int)tmp;
-				} else if (basedata is float) {
-					float tmp = (float)basedata;
-					return (int)tmp;
-				} else if (basedata is double) {
-					double tmp = (double)basedata;
-					return (int)tmp;
-				}
-			} catch {
+			switch (dataType) {
+			case DataType.Int:
+				return (int)basedata;
+			case DataType.Long:
+				return (int)((long)basedata);
+			case DataType.Float:
+				return (int)((float)basedata);
+			case DataType.Double:
+				return (int)((double)basedata);
+			default:
+				return defaultValue;
 			}
-			return defaultValue;
 		}
 
-		public long GetLong (long defaultValue = -1)
+		public long GetLong (long defaultValue)
 		{
-			try {
-				if (basedata is int) {
-					int tmp = (int)basedata;
-					return (long)tmp;
-				} else if (basedata is long) {
-					return (long)basedata;
-				} else if (basedata is float) {
-					float tmp = (float)basedata;
-					return (long)tmp;
-				} else if (basedata is double) {
-					double tmp = (double)basedata;
-					return (long)tmp;
-				}
-			} catch {
+			switch (dataType) {
+			case DataType.Int:
+				return (long)((int)basedata);
+			case DataType.Long:
+				return (long)basedata;
+			case DataType.Float:
+				return (long)((float)basedata);
+			case DataType.Double:
+				return (long)((double)basedata);
+			default:
+				return defaultValue;
 			}
-			return defaultValue;
 		}
 
-		public float GetFloat (float defaultValue = -1)
+		public float GetFloat (float defaultValue)
 		{
-			try {
-				if (basedata is int) {
-					int tmp = (int)basedata;
-					return (float)tmp;
-				} else if (basedata is long) {
-					long tmp = (long)basedata;
-					return (float)tmp;
-				} else if (basedata is float) {
-					return (float)basedata;
-				} else if (basedata is double) {
-					double tmp = (double)basedata;
-					return (float)tmp;
-				}
-			} catch {
+			switch (dataType) {
+			case DataType.Int:
+				return (float)((int)basedata);
+			case DataType.Long:
+				return (float)((long)basedata);
+			case DataType.Float:
+				return (float)basedata;
+			case DataType.Double:
+				return (float)((double)basedata);
+			default:
+				return defaultValue;
 			}
-			return defaultValue;
 		}
 
-		public double GetDouble (double defaultValue = -1)
+		public double GetDouble (double defaultValue)
 		{
-			try {
-				if (basedata is int) {
-					int tmp = (int)basedata;
-					return (double)tmp;
-				} else if (basedata is long) {
-					long tmp = (long)basedata;
-					return (double)tmp;
-				} else if (basedata is float) {
-					float tmp = (float)basedata;
-					return (double)tmp;
-				} else if (basedata is double) {
-					return (double)basedata;
-				}
-			} catch {
+			switch (dataType) {
+			case DataType.Int:
+				return (double)((int)basedata);
+			case DataType.Long:
+				return (double)((long)basedata);
+			case DataType.Float:
+				return (double)((float)basedata);
+			case DataType.Double:
+				return (double)basedata;
+			default:
+				return defaultValue;
 			}
-			return defaultValue;
 		}
 
-		public bool GetBool (bool defaultValue = false)
+		public bool GetBool (bool defaultValue)
 		{
-			try {
+			if (dataType == DataType.Bool) {
 				return (bool)basedata;
-			} catch {
+			} else {
+				return defaultValue;
 			}
-			return defaultValue;
 		}
 
-		public string GetString (string defaultValue = "")
+		public string GetString (string defaultValue)
 		{
 			try {
 				return basedata.ToString ();
 			} catch {
 			}
 			return defaultValue;
+		}
+
+		public T GetData<T> (T defaultValue = null) where T : class
+		{
+			if (dataType == DataType.Refrence && basedata != null) {
+				return basedata as T;
+			} else {
+				return defaultValue;
+			}
 		}
 	}
 }

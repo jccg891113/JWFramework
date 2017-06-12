@@ -134,6 +134,7 @@
 'Assets/JWFramework/Scripts/Core/UGUI/Private/PageManagerCore.cs'
 'Assets/JWFramework/Scripts/Core/UGUI/Private/PageManagerEvent.cs'
 'Assets/JWFramework/Scripts/Core/UGUI/QueueList.cs'
+'Assets/JWFramework/Scripts/Core/Variables/JWDouble.cs'
 'Assets/JWFramework/Scripts/Tools/ArtAnim/JW_EffectScale.cs'
 'Assets/JWFramework/Scripts/Tools/ArtAnim/JW_EffectUVAnim.cs'
 'Assets/JWFramework/Scripts/Tools/BitTool.cs'

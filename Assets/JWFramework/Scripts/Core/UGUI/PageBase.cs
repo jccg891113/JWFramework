@@ -121,65 +121,37 @@ namespace JWFramework.UGUI
 
 		protected string GetParamString (string key, string defaultValue = "")
 		{
-			if (ParamContains (key)) {
-				return param.GetString (key, defaultValue);
-			} else {
-				return defaultValue;
-			}
+			return param.GetString (key, defaultValue);
 		}
 
 		protected int GetParamInt (string key, int defaultValue = -1)
 		{
-			if (ParamContains (key)) {
-				return param.GetInt (key, defaultValue);
-			} else {
-				return defaultValue;
-			}
+			return param.GetInt (key, defaultValue);
 		}
 
 		protected float GetParamFloat (string key, float defaultValue = -1)
 		{
-			if (ParamContains (key)) {
-				return param.GetFloat (key, defaultValue);
-			} else {
-				return defaultValue;
-			}
+			return param.GetFloat (key, defaultValue);
 		}
 
 		protected double GetParamDouble (string key, double defaultValue = -1)
 		{
-			if (ParamContains (key)) {
-				return param.GetDouble (key, defaultValue);
-			} else {
-				return defaultValue;
-			}
+			return param.GetDouble (key, defaultValue);
 		}
 
 		protected long GetParamLong (string key, long defaultValue = -1)
 		{
-			if (ParamContains (key)) {
-				return param.GetLong (key, defaultValue);
-			} else {
-				return defaultValue;
-			}
+			return param.GetLong (key, defaultValue);
 		}
 
 		protected bool GetParamBool (string key, bool defaultValue = false)
 		{
-			if (ParamContains (key)) {
-				return param.GetBool (key, defaultValue);
-			} else {
-				return defaultValue;
-			}
+			return param.GetBool (key, defaultValue);
 		}
 
 		protected object GetParamObject (string key, object defaultValue = null)
 		{
-			if (ParamContains (key)) {
-				return param.GetObject (key, defaultValue);
-			} else {
-				return defaultValue;
-			}
+			return param.GetObject (key, defaultValue);
 		}
 
 		#endregion

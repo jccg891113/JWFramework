@@ -1,9 +1,10 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupConfiguration="{5AC0CF92-0C02-6987-17FA-0A7D3FD36915}|单元测试" StartupItem="Assembly-CSharp.csproj">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/JWFramework/Scripts/Core/Touch3D/JWTouch3DCamera.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/JWFramework/Scripts/Tools/UGUI Effect/Gradient.cs">
     <Files>
+      <File FileName="Assets/JWFramework/Scripts/Tools/UGUI Effect/Gradient.cs" Line="1" Column="1" />
       <File FileName="Assets/JWFramework/Scripts/Core/Touch3D/JWTouch3DCamera.cs" Line="667" Column="36" />
-      <File FileName="Assets/JWFramework/Editor/JWTouch3DCameraEditor.cs" Line="68" Column="72" />
-      <File FileName="Assets/test3d.cs" Line="13" Column="33" />
+      <File FileName="Assets/JWFramework/Editor/JWTouch3DCameraEditor.cs" Line="1" Column="1" />
+      <File FileName="Assets/test3d.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />

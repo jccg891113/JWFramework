@@ -15,7 +15,7 @@ namespace JWFramework
 			if ((paramKeyValue.Length % 2) != 0) {
 				throw new System.Exception ("JWData initiation error: param number asymmetry");
 			}
-			for (int i = 0; i < paramKeyValue.Length; i += 2) {
+			for (int i = 0, imax = paramKeyValue.Length; i < imax; i += 2) {
 				baseData [paramKeyValue [i].ToString ()] = new JWDataItem (paramKeyValue [i + 1]);
 			}
 		}
@@ -39,13 +39,13 @@ namespace JWFramework
 			return baseData.ContainsKey (key);
 		}
 
-		public JWDataItem GetDataItem (string key, object defaultValue = null)
+		private JWDataItem GetDataItem (string key)
 		{
-			if (baseData.ContainsKey (key)) {
+			if (Contains (key)) {
 				return baseData [key];
 			} else {
 				JWDebug.LogError ("[ERROR] Unable to obtain \'" + key + "\' from JWData");
-				return new JWDataItem (defaultValue);
+				return null;
 			}
 		}
 
@@ -58,39 +58,84 @@ namespace JWFramework
 			}
 		}
 
-		public object GetObject (string key, object defaultValue = null)
-		{
-			return GetDataItem (key, defaultValue).GetObject ();
-		}
-
-		public string GetString (string key, string defaultValue = "")
-		{
-			return GetDataItem (key, defaultValue).GetString (defaultValue);
-		}
-
 		public int GetInt (string key, int defaultValue = -1)
 		{
-			return GetDataItem (key, defaultValue).GetInt (defaultValue);
+			JWDataItem dataItem = GetDataItem (key);
+			if (dataItem != null) {
+				return dataItem.GetInt (defaultValue);
+			} else {
+				return defaultValue;
+			}
 		}
 
 		public long GetLong (string key, long defaultValue = -1)
 		{
-			return GetDataItem (key, defaultValue).GetLong (defaultValue);
+			JWDataItem dataItem = GetDataItem (key);
+			if (dataItem != null) {
+				return dataItem.GetLong (defaultValue);
+			} else {
+				return defaultValue;
+			}
 		}
 
 		public float GetFloat (string key, float defaultValue = -1)
 		{
-			return GetDataItem (key, defaultValue).GetFloat (defaultValue);
+			JWDataItem dataItem = GetDataItem (key);
+			if (dataItem != null) {
+				return dataItem.GetFloat (defaultValue);
+			} else {
+				return defaultValue;
+			}
 		}
 
 		public double GetDouble (string key, double defaultValue = -1)
 		{
-			return GetDataItem (key, defaultValue).GetDouble (defaultValue);
+			JWDataItem dataItem = GetDataItem (key);
+			if (dataItem != null) {
+				return dataItem.GetDouble (defaultValue);
+			} else {
+				return defaultValue;
+			}
 		}
 
 		public bool GetBool (string key, bool defaultValue = false)
 		{
-			return GetDataItem (key, defaultValue).GetBool (defaultValue);
+			JWDataItem dataItem = GetDataItem (key);
+			if (dataItem != null) {
+				return dataItem.GetBool (defaultValue);
+			} else {
+				return defaultValue;
+			}
+		}
+
+		public string GetString (string key, string defaultValue = "")
+		{
+			JWDataItem dataItem = GetDataItem (key);
+			if (dataItem != null) {
+				return dataItem.GetString (defaultValue);
+			} else {
+				return defaultValue;
+			}
+		}
+
+		public object GetObject (string key, object defaultValue = null)
+		{
+			JWDataItem dataItem = GetDataItem (key);
+			if (dataItem != null) {
+				return dataItem.GetObject ();
+			} else {
+				return defaultValue;
+			}
+		}
+
+		public T GetData<T> (string key, T defaultValue = null) where T : class
+		{
+			JWDataItem dataItem = GetDataItem (key);
+			if (dataItem != null) {
+				return dataItem.GetData<T> (defaultValue);
+			} else {
+				return defaultValue;
+			}
 		}
 	}
 }

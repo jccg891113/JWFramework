@@ -17,13 +17,11 @@ namespace JWFramework.UGUI
 
 		public override void ModifyMesh (VertexHelper vh)
 		{
-			if (!IsActive ()) {
+			if (!IsActive () || vh.currentVertCount == 0) {
 				return;
 			}
 
 			var count = vh.currentVertCount;
-			if (count == 0)
-				return;
 
 			var vertexs = new List<UIVertex> ();
 			for (var i = 0; i < count; i++) {

@@ -18,6 +18,8 @@ Add:
 - JWContentSizeGridLayoutGroup，针对UGUI的Grid组件进行优化，融合ContentSizeFilter组件。核心去除原生Grid对于未显示item的操作，使隐藏item依然占据原有排位，从而实现只显示可显示区域内的item，减少渲染压力
 
 Improvements:
+- JWData底层针对值类型取值进行优化，同时引入泛型取值方法。
+- PageBase取参方法进行修正，删除影响速度不必要的代码。
 
 Fixes:
 

@@ -86,17 +86,20 @@ public class JWAnimToolsEditor : Editor
 									uiAnimBase.alphaGroup = new System.Collections.Generic.List<CanvasGroup> ();
 								}
 								uiAnimBase.curve = EditorGUILayout.CurveField ("Alpha Curve", uiAnimBase.curve);
-								int alphaItemCount = EditorGUILayout.IntField ("Alpha Rect", uiAnimBase.alphaGroup.Count);
-								while (alphaItemCount != uiAnimBase.alphaGroup.Count) {
-									if (alphaItemCount > uiAnimBase.alphaGroup.Count) {
-										uiAnimBase.alphaGroup.Add (null);
-									} else {
-										uiAnimBase.alphaGroup.RemoveAt (uiAnimBase.alphaGroup.Count - 1);
-									}
-								}
-								for (int j = 0, jmax = uiAnimBase.alphaGroup.Count; j < jmax; j++) {
-									uiAnimBase.alphaGroup [j] = (CanvasGroup)EditorGUILayout.ObjectField ("    Element " + j, uiAnimBase.alphaGroup [j], typeof(CanvasGroup), true);
-								}
+//								int alphaItemCount = EditorGUILayout.IntField ("Alpha Rect", uiAnimBase.alphaGroup.Count);
+//								while (alphaItemCount != uiAnimBase.alphaGroup.Count) {
+//									if (alphaItemCount > uiAnimBase.alphaGroup.Count) {
+//										uiAnimBase.alphaGroup.Add (null);
+//									} else {
+//										uiAnimBase.alphaGroup.RemoveAt (uiAnimBase.alphaGroup.Count - 1);
+//									}
+//								}
+//								for (int j = 0, jmax = uiAnimBase.alphaGroup.Count; j < jmax; j++) {
+//									uiAnimBase.alphaGroup [j] = (CanvasGroup)EditorGUILayout.ObjectField ("    Element " + j, uiAnimBase.alphaGroup [j], typeof(CanvasGroup), true);
+//								}
+								EditorGUI.indentLevel += 1;
+								EditorGUILayout.PropertyField (anims.GetArrayElementAtIndex (i).FindPropertyRelative ("alphaGroup"), new GUIContent ("Alpha Rect"), true);
+								EditorGUI.indentLevel -= 1;
 							}
 						}
 						break;
@@ -117,17 +120,20 @@ public class JWAnimToolsEditor : Editor
 								uiAnimBase.curve = EditorGUILayout.CurveField ("Color Curve", uiAnimBase.curve);
 								uiAnimBase.beginColor = EditorGUILayout.ColorField ("Begin Color", uiAnimBase.beginColor);
 								uiAnimBase.endColor = EditorGUILayout.ColorField ("End Color", uiAnimBase.endColor);
-								int colorItemCount = EditorGUILayout.IntField ("Color Rect", uiAnimBase.colorGroup.Count);
-								while (colorItemCount != uiAnimBase.colorGroup.Count) {
-									if (colorItemCount > uiAnimBase.colorGroup.Count) {
-										uiAnimBase.colorGroup.Add (null);
-									} else {
-										uiAnimBase.colorGroup.RemoveAt (uiAnimBase.colorGroup.Count - 1);
-									}
-								}
-								for (int j = 0, jmax = uiAnimBase.colorGroup.Count; j < jmax; j++) {
-									uiAnimBase.colorGroup [j] = (UnityEngine.UI.Graphic)EditorGUILayout.ObjectField ("    Element " + j, uiAnimBase.colorGroup [j], typeof(UnityEngine.UI.Graphic), true);
-								}
+//								int colorItemCount = EditorGUILayout.IntField ("Color Rect", uiAnimBase.colorGroup.Count);
+//								while (colorItemCount != uiAnimBase.colorGroup.Count) {
+//									if (colorItemCount > uiAnimBase.colorGroup.Count) {
+//										uiAnimBase.colorGroup.Add (null);
+//									} else {
+//										uiAnimBase.colorGroup.RemoveAt (uiAnimBase.colorGroup.Count - 1);
+//									}
+//								}
+//								for (int j = 0, jmax = uiAnimBase.colorGroup.Count; j < jmax; j++) {
+//									uiAnimBase.colorGroup [j] = (UnityEngine.UI.Graphic)EditorGUILayout.ObjectField ("    Element " + j, uiAnimBase.colorGroup [j], typeof(UnityEngine.UI.Graphic), true);
+//								}
+								EditorGUI.indentLevel += 1;
+								EditorGUILayout.PropertyField (anims.GetArrayElementAtIndex (i).FindPropertyRelative ("colorGroup"), new GUIContent ("Color Rect"), true);
+								EditorGUI.indentLevel -= 1;
 							}
 						}
 						break;
